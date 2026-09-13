@@ -1,0 +1,21 @@
+{
+   "Description" : {
+      "Id" : "movedef_guncannon_RCX-76-02",
+      "Name" : "MovementCapabilitiesDef for Guncannon RCX-76-02",
+      "Details" : "",
+      "Icon" : ""
+   },
+   "MaxWalkDistance" : 100.0,
+   "MaxSprintDistance" : 170.0,
+   "WalkVelocity" : 15.0,
+   "RunVelocity" : 24.0,
+   "SprintVelocity" : 27.0,
+   "LimpVelocity" : 7.0,
+   "WalkAcceleration" : 12.0,
+   "SprintAcceleration" : 16.0,
+   "MaxRadialVelocity" : 55.0,
+   "MaxRadialAcceleration" : 170.0,
+   "MaxJumpVel" : 18.0,
+   "MaxJumpAccel" : 9.0,
+   "MaxJumpVerticalAccel" : 18.0
+}

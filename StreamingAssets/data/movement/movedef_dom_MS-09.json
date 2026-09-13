@@ -1,0 +1,21 @@
+{
+   "Description" : {
+      "Id" : "movedef_dom_MS-09",
+      "Name" : "MovementCapabilitiesDef for Dom MS-09",
+      "Details" : "",
+      "Icon" : ""
+   },
+   "MaxWalkDistance" : 165.0,
+   "MaxSprintDistance" : 275.0,
+   "WalkVelocity" : 20.0,
+   "RunVelocity" : 42.0,
+   "SprintVelocity" : 52.0,
+   "LimpVelocity" : 8.0,
+   "WalkAcceleration" : 18.0,
+   "SprintAcceleration" : 24.0,
+   "MaxRadialVelocity" : 85.0,
+   "MaxRadialAcceleration" : 240.0,
+   "MaxJumpVel" : 32.0,
+   "MaxJumpAccel" : 17.0,
+   "MaxJumpVerticalAccel" : 32.0
+}

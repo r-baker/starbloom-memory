@@ -1,0 +1,201 @@
+{
+    "Description": {
+        "Cost": 6800000,
+        "Rarity": 5,
+        "Purchasable": false,
+        "Manufacturer": "Earth Federation Forces",
+        "Model": "RX-79[G]Ez-8",
+        "UIName": "Gundam Ez8",
+        "Id": "chassisdef_ez8_RX-79G",
+        "Name": "Gundam Ez8",
+        "Details": "A field-repaired Ground Type, rebuilt after heavy combat damage with reinforced chest armor — literally two welded Zaku II shoulder shields, tough enough to shrug off a direct 175mm hit. Lighter and faster than the frame it was rebuilt from.",
+        "Icon": "uixTxrIcon_dragon"
+    },
+    "MovementCapDefID": "movedef_ez8_RX-79G",
+    "PathingCapDefID": "pathingdef_heavy",
+    "HardpointDataDefID": "hardpointdatadef_dragon",
+    "PrefabIdentifier": "chrPrfMech_dragonBase-001",
+    "PrefabBase": "dragon",
+    "Tonnage": 70,
+    "InitialTonnage": 31,
+    "weightClass": "HEAVY",
+    "BattleValue": 6800000,
+    "Heatsinks": 0,
+    "TopSpeed": 128,
+    "TurnRadius": 90,
+    "MaxJumpjets": 4,
+    "Stability": 170,
+    "StabilityDefenses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "SpotterDistanceMultiplier": 1,
+    "VisibilityMultiplier": 1,
+    "SensorRangeMultiplier": 1,
+    "Signature": 0,
+    "Radius": 8,
+    "PunchesWithLeftArm": false,
+    "MeleeDamage": 40,
+    "MeleeInstability": 30,
+    "MeleeToHitModifier": 1,
+    "DFADamage": 55,
+    "DFAToHitModifier": 0,
+    "DFASelfDamage": 45,
+    "DFAInstability": 70,
+    "Locations": [
+        {
+            "Location": "Head",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "AntiPersonnel",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 1,
+            "MaxArmor": 45,
+            "MaxRearArmor": -1,
+            "InternalStructure": 16
+        },
+        {
+            "Location": "LeftArm",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Melee",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 8,
+            "MaxArmor": 130,
+            "MaxRearArmor": -1,
+            "InternalStructure": 50
+        },
+        {
+            "Location": "LeftTorso",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Energy",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 175,
+            "MaxRearArmor": 85,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "CenterTorso",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 250,
+            "MaxRearArmor": 120,
+            "InternalStructure": 100
+        },
+        {
+            "Location": "RightTorso",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Ballistic",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 175,
+            "MaxRearArmor": 85,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "RightArm",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Energy",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 8,
+            "MaxArmor": 130,
+            "MaxRearArmor": -1,
+            "InternalStructure": 50
+        },
+        {
+            "Location": "LeftLeg",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 175,
+            "MaxRearArmor": -1,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "RightLeg",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 175,
+            "MaxRearArmor": -1,
+            "InternalStructure": 70
+        }
+    ],
+    "LOSSourcePositions": [
+        {
+            "x": 0,
+            "y": 13,
+            "z": 1
+        },
+        {
+            "x": 3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": -3,
+            "y": 13,
+            "z": 0
+        }
+    ],
+    "LOSTargetPositions": [
+        {
+            "x": 0,
+            "y": 13,
+            "z": 1
+        },
+        {
+            "x": 3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": -3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 0
+        },
+        {
+            "x": -2,
+            "y": 5,
+            "z": 0
+        }
+    ],
+    "VariantName": "RX-79[G]Ez-8",
+    "ChassisTags": {
+        "items": [
+            "unit_humanoidHands"
+        ],
+        "tagSetSourceFile": ""
+    },
+    "StockRole": "All-Rounder & Close Assault",
+    "YangsThoughts": "Rebuilt tougher than it started, Commander. That chest plating came off a couple of dead Zakus — poetic, and it works."
+}

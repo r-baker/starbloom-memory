@@ -1,0 +1,201 @@
+{
+    "Description": {
+        "Cost": 4200000,
+        "Rarity": 3,
+        "Purchasable": false,
+        "Manufacturer": "Earth Federation Forces",
+        "Model": "RGM-79",
+        "UIName": "GM",
+        "Id": "chassisdef_gm_RGM-79",
+        "Name": "GM",
+        "Details": "The Federation's first true mass-production mobile suit — a cost-reduced descendant of the RX-78 line, built for the assembly line rather than to showcase Luna Titanium. Titanium alloy armor instead of the genuine article means it can't shrug off hits the way the Prototype Gundam can, but there are a lot more of these than there are Gundams.",
+        "Icon": "uixTxrIcon_dragon"
+    },
+    "MovementCapDefID": "movedef_gm_RGM-79",
+    "PathingCapDefID": "pathingdef_heavy",
+    "HardpointDataDefID": "hardpointdatadef_dragon",
+    "PrefabIdentifier": "chrPrfMech_dragonBase-001",
+    "PrefabBase": "dragon",
+    "Tonnage": 59,
+    "InitialTonnage": 31,
+    "weightClass": "MEDIUM",
+    "BattleValue": 4200000,
+    "Heatsinks": 0,
+    "TopSpeed": 128,
+    "TurnRadius": 90,
+    "MaxJumpjets": 4,
+    "Stability": 170,
+    "StabilityDefenses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "SpotterDistanceMultiplier": 1,
+    "VisibilityMultiplier": 1,
+    "SensorRangeMultiplier": 1,
+    "Signature": 0,
+    "Radius": 8,
+    "PunchesWithLeftArm": false,
+    "MeleeDamage": 35,
+    "MeleeInstability": 25,
+    "MeleeToHitModifier": 1,
+    "DFADamage": 35,
+    "DFAToHitModifier": 0,
+    "DFASelfDamage": 45,
+    "DFAInstability": 55,
+    "Locations": [
+        {
+            "Location": "Head",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "AntiPersonnel",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 1,
+            "MaxArmor": 45,
+            "MaxRearArmor": -1,
+            "InternalStructure": 16
+        },
+        {
+            "Location": "LeftArm",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Melee",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 8,
+            "MaxArmor": 100,
+            "MaxRearArmor": -1,
+            "InternalStructure": 50
+        },
+        {
+            "Location": "LeftTorso",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Energy",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 130,
+            "MaxRearArmor": 65,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "CenterTorso",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 190,
+            "MaxRearArmor": 90,
+            "InternalStructure": 100
+        },
+        {
+            "Location": "RightTorso",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Ballistic",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 130,
+            "MaxRearArmor": 65,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "RightArm",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Energy",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 8,
+            "MaxArmor": 100,
+            "MaxRearArmor": -1,
+            "InternalStructure": 50
+        },
+        {
+            "Location": "LeftLeg",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 130,
+            "MaxRearArmor": -1,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "RightLeg",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 130,
+            "MaxRearArmor": -1,
+            "InternalStructure": 70
+        }
+    ],
+    "LOSSourcePositions": [
+        {
+            "x": 0,
+            "y": 13,
+            "z": 1
+        },
+        {
+            "x": 3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": -3,
+            "y": 13,
+            "z": 0
+        }
+    ],
+    "LOSTargetPositions": [
+        {
+            "x": 0,
+            "y": 13,
+            "z": 1
+        },
+        {
+            "x": 3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": -3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 0
+        },
+        {
+            "x": -2,
+            "y": 5,
+            "z": 0
+        }
+    ],
+    "VariantName": "RGM-79",
+    "ChassisTags": {
+        "items": [
+            "unit_humanoidHands"
+        ],
+        "tagSetSourceFile": ""
+    },
+    "StockRole": "General-Purpose & Line Infantry",
+    "YangsThoughts": "Not as tough as the Gundam, Commander, but it's got a beam saber and a beam spray gun, and the Federation's finally building these things by the dozen. Give it a good pilot and it'll hold its own."
+}

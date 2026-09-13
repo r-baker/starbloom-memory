@@ -1,0 +1,209 @@
+{
+    "Description": {
+        "Cost": 9800000,
+        "Rarity": 8,
+        "Purchasable": false,
+        "Manufacturer": "Earth Federation Forces (Project V)",
+        "Model": "RX-78-1",
+        "UIName": "Prototype Gundam",
+        "Id": "chassisdef_protogundam_RX-78-1",
+        "Name": "Prototype Gundam",
+        "Details": "The third machine produced under Project V, and the true starting point of the RX-78 line. Unlike the Guntank and Guncannon before it, the Prototype Gundam was built around close-quarters speed rather than raw firepower. Its luna titanium armor lets it shrug off hits that would core a contemporary Zeon mobile suit, and its beam saber makes it a genuine melee threat.",
+        "Icon": "uixTxrIcon_dragon"
+    },
+    "MovementCapDefID": "movedef_protogundam_RX-78-1",
+    "PathingCapDefID": "pathingdef_heavy",
+    "HardpointDataDefID": "hardpointdatadef_dragon",
+    "PrefabIdentifier": "chrPrfMech_dragonBase-001",
+    "PrefabBase": "dragon",
+    "Tonnage": 60,
+    "InitialTonnage": 31,
+    "weightClass": "HEAVY",
+    "BattleValue": 9500000,
+    "Heatsinks": 0,
+    "TopSpeed": 128,
+    "TurnRadius": 90,
+    "MaxJumpjets": 4,
+    "Stability": 170,
+    "StabilityDefenses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "SpotterDistanceMultiplier": 1,
+    "VisibilityMultiplier": 1,
+    "SensorRangeMultiplier": 1,
+    "Signature": 0,
+    "Radius": 8,
+    "PunchesWithLeftArm": false,
+    "MeleeDamage": 115,
+    "MeleeInstability": 70,
+    "MeleeToHitModifier": 1,
+    "DFADamage": 85,
+    "DFAToHitModifier": 0,
+    "DFASelfDamage": 60,
+    "DFAInstability": 85,
+    "Locations": [
+        {
+            "Location": "Head",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "AntiPersonnel",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 1,
+            "MaxArmor": 50,
+            "MaxRearArmor": -1,
+            "InternalStructure": 16
+        },
+        {
+            "Location": "LeftArm",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Melee",
+                    "Omni": false
+                },
+                {
+                    "WeaponMount": "Ballistic",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 8,
+            "MaxArmor": 120,
+            "MaxRearArmor": -1,
+            "InternalStructure": 50
+        },
+        {
+            "Location": "LeftTorso",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Energy",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 155,
+            "MaxRearArmor": 75,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "CenterTorso",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 225,
+            "MaxRearArmor": 110,
+            "InternalStructure": 100
+        },
+        {
+            "Location": "RightTorso",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Ballistic",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 155,
+            "MaxRearArmor": 75,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "RightArm",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Energy",
+                    "Omni": false
+                },
+                {
+                    "WeaponMount": "Ballistic",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 8,
+            "MaxArmor": 120,
+            "MaxRearArmor": -1,
+            "InternalStructure": 50
+        },
+        {
+            "Location": "LeftLeg",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 155,
+            "MaxRearArmor": -1,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "RightLeg",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 155,
+            "MaxRearArmor": -1,
+            "InternalStructure": 70
+        }
+    ],
+    "LOSSourcePositions": [
+        {
+            "x": 0,
+            "y": 13,
+            "z": 1
+        },
+        {
+            "x": 3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": -3,
+            "y": 13,
+            "z": 0
+        }
+    ],
+    "LOSTargetPositions": [
+        {
+            "x": 0,
+            "y": 13,
+            "z": 1
+        },
+        {
+            "x": 3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": -3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 0
+        },
+        {
+            "x": -2,
+            "y": 5,
+            "z": 0
+        }
+    ],
+    "VariantName": "RX-78-1",
+    "ChassisTags": {
+        "items": [
+            "unit_humanoidHands"
+        ],
+        "tagSetSourceFile": ""
+    },
+    "StockRole": "All-Rounder & Close Assault",
+    "YangsThoughts": "Tougher than anything else in the squadron, fast enough to close distance on its own terms, and the only thing on our side that wins a knife fight. Put your best pilot in this one."
+}

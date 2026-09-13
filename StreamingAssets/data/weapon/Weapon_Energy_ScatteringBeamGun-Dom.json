@@ -1,0 +1,63 @@
+{
+    "Category" : "Energy",
+    "Type" : "Laser",
+    "WeaponSubType" : "MediumLaser",
+    "MinRange" : 0,
+    "MaxRange" : 260,
+    "RangeSplit" : [
+        170,
+        170,
+        260
+    ],
+    "ammoCategoryID" : "NotSet",
+    "StartingAmmoCapacity" : 0,
+    "HeatGenerated" : 11,
+    "Damage" : 26,
+    "OverheatedDamageMultiplier" : 0,
+    "EvasiveDamageMultiplier" : 0,
+    "EvasivePipsIgnored" : 0,
+    "DamageVariance" : 0,
+    "HeatDamage" : 0,
+    "AccuracyModifier" : -1,
+    "CriticalChanceMultiplier" : 1,
+    "AOECapable" : false,
+    "IndirectFireCapable" : false,
+    "RefireModifier" : 0,
+    "ShotsWhenFired" : 1,
+    "ProjectilesPerShot" : 1,
+    "AttackRecoil" : 1,
+    "Instability" : 0,
+    "WeaponEffectID" : "WeaponEffect-Weapon_Laser_Medium",
+    "Description" : {
+        "Cost" : 240000,
+        "Rarity" : 2,
+        "Purchasable" : false,
+        "Manufacturer" : "Zimmad",
+        "Model" : "Scattering Beam Gun",
+        "UIName" : "Scattering Beam Gun",
+        "Id" : "Weapon_Energy_ScatteringBeamGun-Dom",
+        "Name" : "Scattering Beam Gun",
+        "Details" : "Fixed to the Dom's left chest — Zeon's first fielded fixed energy weapon. A wide-dispersion beam, easier to land than a focused rifle shot but hitting a shade softer for it.",
+        "Icon" : "uixSvgIcon_weapon_Energy"
+    },
+    "BonusValueA" : "",
+    "BonusValueB" : "",
+    "ComponentType" : "Weapon",
+    "ComponentSubType" : "Weapon",
+    "PrefabIdentifier" : "Laser",
+    "BattleValue" : 0,
+    "InventorySize" : 1,
+    "Tonnage" : 3,
+    "AllowedLocations" : "All",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "gundamuc_weapon"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}

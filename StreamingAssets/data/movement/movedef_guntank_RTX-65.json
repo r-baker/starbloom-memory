@@ -1,0 +1,21 @@
+{
+   "Description" : {
+      "Id" : "movedef_guntank_RTX-65",
+      "Name" : "MovementCapabilitiesDef for Guntank RTX-65",
+      "Details" : "",
+      "Icon" : ""
+   },
+   "MaxWalkDistance" : 70.0,
+   "MaxSprintDistance" : 120.0,
+   "WalkVelocity" : 14.0,
+   "RunVelocity" : 20.0,
+   "SprintVelocity" : 22.0,
+   "LimpVelocity" : 6.0,
+   "WalkAcceleration" : 10.0,
+   "SprintAcceleration" : 14.0,
+   "MaxRadialVelocity" : 45.0,
+   "MaxRadialAcceleration" : 150.0,
+   "MaxJumpVel" : 0.0,
+   "MaxJumpAccel" : 0.0,
+   "MaxJumpVerticalAccel" : 0.0
+}

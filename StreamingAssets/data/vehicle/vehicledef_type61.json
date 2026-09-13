@@ -1,0 +1,97 @@
+{
+   "Version" : 1,
+   "Description" : {
+      "Id" : "vehicledef_type61",
+      "Name" : "Type 61 Tank",
+      "Details" : "The Federation's mass-production main battle tank — mainstay of the ground forces before mobile suits existed. Twin 150mm cannons, reliable and unremarkable, increasingly outmatched as the war goes on.",
+      "Icon" : "",
+      "Cost" : 993,
+      "Rarity" : 0,
+      "Purchasable" : false
+   },
+   "ChassisID" : "vehiclechassisdef_type61",
+   "VehicleTags": {
+      "items": [
+         "unit_vehicle",
+         "unit_release",
+         "unit_heavy",
+         "unit_tracks",
+         "NoFaction"
+      ],
+      "tagSetSourceFile": ""
+   },
+   "Locations" : [
+		{
+			"Location" : "Front",
+			"CurrentArmor" : 120,
+			"CurrentInternalStructure" : 30,
+			"AssignedArmor" : 120,
+			"DamageLevel" : "Functional"
+		},
+		{
+			"Location" : "Left",
+			"CurrentArmor" : 100,
+			"CurrentInternalStructure" : 30,
+			"AssignedArmor" : 100,
+			"DamageLevel" : "Functional"
+		},
+		{
+			"Location" : "Right",
+			"CurrentArmor" : 100,
+			"CurrentInternalStructure" : 30,
+			"AssignedArmor" : 100,
+			"DamageLevel" : "Functional"
+		},
+		{
+			"Location" : "Rear",
+			"CurrentArmor" : 100,
+			"CurrentInternalStructure" : 30,
+			"AssignedArmor" : 100,
+			"DamageLevel" : "Functional"
+		},
+		{
+			"Location" : "Turret",
+			"CurrentArmor" : 100,
+			"CurrentInternalStructure" : 30,
+			"AssignedArmor" : 100,
+			"DamageLevel" : "Functional"
+		}
+   ],
+   "inventory" : [
+      {
+         "ComponentDefID" : "Weapon_AntiPersonnel_VulcanGun-Federation",
+         "ComponentDefType" : "Weapon",
+         "MountedLocation" : "Front",
+		 "HardpointSlot" : 0,
+		 "DamageLevel" : "Functional"
+      },
+      {
+         "ComponentDefID" : "Weapon_Ballistic_150mmCannon-Type61",
+         "ComponentDefType" : "Weapon",
+         "MountedLocation" : "Turret",
+		 "HardpointSlot" : 0,
+		 "DamageLevel" : "Functional"
+      },
+      {
+         "ComponentDefID" : "Weapon_Ballistic_150mmCannon-Type61",
+         "ComponentDefType" : "Weapon",
+         "MountedLocation" : "Turret",
+		 "HardpointSlot" : 1,
+		 "DamageLevel" : "Functional"
+      },
+      {
+         "ComponentDefID" : "Ammo_AmmunitionBox_Generic_AC10",
+         "ComponentDefType" : "AmmunitionBox",
+         "MountedLocation" : "Turret",
+		 "HardpointSlot" : -1,
+		 "DamageLevel" : "Functional"
+      },
+      {
+         "ComponentDefID" : "Ammo_AmmunitionBox_Generic_AC10",
+         "ComponentDefType" : "AmmunitionBox",
+         "MountedLocation" : "Turret",
+		 "HardpointSlot" : -1,
+		 "DamageLevel" : "Functional"
+      }
+   ]
+}

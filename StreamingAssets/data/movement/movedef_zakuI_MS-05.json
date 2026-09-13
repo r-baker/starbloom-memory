@@ -1,0 +1,21 @@
+{
+   "Description" : {
+      "Id" : "movedef_zakuI_MS-05",
+      "Name" : "MovementCapabilitiesDef for Zaku I MS-05",
+      "Details" : "",
+      "Icon" : ""
+   },
+   "MaxWalkDistance" : 145.0,
+   "MaxSprintDistance" : 245.0,
+   "WalkVelocity" : 17.0,
+   "RunVelocity" : 37.0,
+   "SprintVelocity" : 45.0,
+   "LimpVelocity" : 8.0,
+   "WalkAcceleration" : 16.0,
+   "SprintAcceleration" : 21.0,
+   "MaxRadialVelocity" : 75.0,
+   "MaxRadialAcceleration" : 215.0,
+   "MaxJumpVel" : 32.0,
+   "MaxJumpAccel" : 17.0,
+   "MaxJumpVerticalAccel" : 32.0
+}

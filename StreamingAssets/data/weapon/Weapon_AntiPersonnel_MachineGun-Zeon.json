@@ -1,0 +1,63 @@
+{
+    "Category" : "AntiPersonnel",
+    "Type" : "MachineGun",
+    "WeaponSubType" : "MachineGun",
+    "MinRange" : 0,
+    "MaxRange" : 120,
+    "RangeSplit" : [
+        120,
+        120,
+        120
+    ],
+    "ammoCategoryID" : "MG",
+    "StartingAmmoCapacity" : 0,
+    "HeatGenerated" : 0,
+    "Damage" : 4,
+    "OverheatedDamageMultiplier" : 0,
+    "EvasiveDamageMultiplier" : 0,
+    "EvasivePipsIgnored" : 0,
+    "DamageVariance" : 0,
+    "HeatDamage" : 0,
+    "AccuracyModifier" : 0,
+    "CriticalChanceMultiplier" : 1.5,
+    "AOECapable" : false,
+    "IndirectFireCapable" : false,
+    "RefireModifier" : 0,
+    "ShotsWhenFired" : 6,
+    "ProjectilesPerShot" : 1,
+    "AttackRecoil" : 0,
+    "Instability" : 0,
+    "WeaponEffectID" : "WeaponEffect-Weapon_MachineGun",
+    "Description" : {
+        "Cost" : 20000,
+        "Rarity" : 1,
+        "Purchasable" : false,
+        "Manufacturer" : "Zeonic",
+        "Model" : "3-Barrel 35mm MG",
+        "UIName" : "35mm Machine Gun",
+        "Id" : "Weapon_AntiPersonnel_MachineGun-Zeon",
+        "Name" : "35mm Machine Gun",
+        "Details" : "A 3-barrel 35mm point-defense gun, standard secondary armament across Zeon's ground armor. Anti-infantry and anti-aircraft work — very high rate of fire, negligible damage against armored targets.",
+        "Icon" : "uixSvgIcon_weapon_Support"
+    },
+    "BonusValueA" : "",
+    "BonusValueB" : "",
+    "ComponentType" : "Weapon",
+    "ComponentSubType" : "Weapon",
+    "PrefabIdentifier" : "MachineGun",
+    "BattleValue" : 0,
+    "InventorySize" : 1,
+    "Tonnage" : 0.5,
+    "AllowedLocations" : "All",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "gundamuc_weapon"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}

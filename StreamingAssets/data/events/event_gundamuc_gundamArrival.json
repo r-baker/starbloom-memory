@@ -1,0 +1,92 @@
+{
+    "Description" : {
+        "Id" : "event_gundamuc_gundamArrival",
+        "Name" : "Project V, Unit Three",
+        "Details" : "A priority transmission comes through from Federation high command. The third Project V prototype — the last of the line, built for close-quarters speed rather than raw firepower — has been cleared for transfer to your command.\n\nWithin the hour, a support shuttle arrives, escorting a single crated mobile suit through your ship's cargo bay doors. The manifest reads simply: RX-78-1.",
+        "Icon" : ""
+    },
+    "Scope" : "Company",
+    "Weight" : 1,
+    "Requirements" : {
+        "Scope" : "Company",
+        "RequirementTags" : {
+            "items" : [],
+            "tagSetSourceFile" : ""
+        },
+        "ExclusionTags" : {
+            "items" : [],
+            "tagSetSourceFile" : ""
+        },
+        "RequirementComparisons" : []
+    },
+    "AdditionalRequirements" : [],
+    "AdditionalObjects" : [],
+    "Options" : [
+        {
+            "Description" : {
+                "Id" : "outcome_0",
+                "Name" : "Take command of the Prototype Gundam.",
+                "Details" : "",
+                "Icon" : ""
+            },
+            "RequirementList" : [],
+            "ResultSets" : [
+                {
+                    "Description" : {
+                        "Id" : "outcome_0_0",
+                        "Name" : "Gundam received",
+                        "Details" : "The RX-78-1 is yours. Assign a pilot when you're ready.",
+                        "Icon" : ""
+                    },
+                    "Weight" : 100,
+                    "Results" : [
+                        {
+                            "Scope" : "Company",
+                            "Requirements" : null,
+                            "AddedTags" : {
+                                "items" : [],
+                                "tagSetSourceFile" : ""
+                            },
+                            "RemovedTags" : {
+                                "items" : [],
+                                "tagSetSourceFile" : ""
+                            },
+                            "Stats" : null,
+                            "Actions" : [
+                                {
+                                    "Type" : "System_ShowRewards",
+                                    "value" : "itemCollection_loot_gundamArrival",
+                                    "valueConstant" : null,
+                                    "additionalValues" : null
+                                }
+                            ],
+                            "ForceEvents" : null,
+                            "TemporaryResult" : false,
+                            "ResultDuration" : 0
+                        }
+                    ]
+                }
+            ],
+            "Requirements" : {
+                "Scope" : "Company",
+                "RequirementTags" : {
+                    "items" : [],
+                    "tagSetSourceFile" : ""
+                },
+                "ExclusionTags" : {
+                    "items" : [],
+                    "tagSetSourceFile" : ""
+                },
+                "RequirementComparisons" : []
+            }
+        }
+    ],
+    "PublishState" : "PUBLISHED",
+    "ValidationState" : "UNTESTED",
+    "EventType" : "UNSELECTABLE",
+    "OneTimeEvent" : true,
+    "Tags" : {
+        "tagSetSourceFile" : "tags/EventTags",
+        "items" : []
+    }
+}

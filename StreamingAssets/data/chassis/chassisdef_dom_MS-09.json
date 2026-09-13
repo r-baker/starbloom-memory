@@ -1,0 +1,201 @@
+{
+    "Description": {
+        "Cost": 4500000,
+        "Rarity": 3,
+        "Purchasable": false,
+        "Manufacturer": "Zimmad",
+        "Model": "MS-09",
+        "UIName": "Dom",
+        "Id": "chassisdef_dom_MS-09",
+        "Name": "Dom",
+        "Details": "Zeon's fast heavy attacker — hover-mobile on thermonuclear jet thrusters, far quicker than anything else in Zeon's roster. A chest-mounted scattering beam gun and a back-stored heat saber round out an assault-class mobile suit built to close distance fast and hit hard once there.",
+        "Icon": "uixTxrIcon_dragon"
+    },
+    "MovementCapDefID": "movedef_dom_MS-09",
+    "PathingCapDefID": "pathingdef_heavy",
+    "HardpointDataDefID": "hardpointdatadef_dragon",
+    "PrefabIdentifier": "chrPrfMech_dragonBase-001",
+    "PrefabBase": "dragon",
+    "Tonnage": 82,
+    "InitialTonnage": 31,
+    "weightClass": "ASSAULT",
+    "BattleValue": 4500000,
+    "Heatsinks": 0,
+    "TopSpeed": 128,
+    "TurnRadius": 90,
+    "MaxJumpjets": 4,
+    "Stability": 170,
+    "StabilityDefenses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "SpotterDistanceMultiplier": 1,
+    "VisibilityMultiplier": 1,
+    "SensorRangeMultiplier": 1,
+    "Signature": 0,
+    "Radius": 8,
+    "PunchesWithLeftArm": false,
+    "MeleeDamage": 40,
+    "MeleeInstability": 35,
+    "MeleeToHitModifier": 1,
+    "DFADamage": 45,
+    "DFAToHitModifier": 0,
+    "DFASelfDamage": 55,
+    "DFAInstability": 65,
+    "Locations": [
+        {
+            "Location": "Head",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "AntiPersonnel",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 1,
+            "MaxArmor": 45,
+            "MaxRearArmor": -1,
+            "InternalStructure": 16
+        },
+        {
+            "Location": "LeftArm",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Melee",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 8,
+            "MaxArmor": 130,
+            "MaxRearArmor": -1,
+            "InternalStructure": 50
+        },
+        {
+            "Location": "LeftTorso",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Energy",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 165,
+            "MaxRearArmor": 80,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "CenterTorso",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 240,
+            "MaxRearArmor": 115,
+            "InternalStructure": 100
+        },
+        {
+            "Location": "RightTorso",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Ballistic",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 10,
+            "MaxArmor": 165,
+            "MaxRearArmor": 80,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "RightArm",
+            "Hardpoints": [
+                {
+                    "WeaponMount": "Melee",
+                    "Omni": false
+                }
+            ],
+            "Tonnage": 0,
+            "InventorySlots": 8,
+            "MaxArmor": 130,
+            "MaxRearArmor": -1,
+            "InternalStructure": 50
+        },
+        {
+            "Location": "LeftLeg",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 165,
+            "MaxRearArmor": -1,
+            "InternalStructure": 70
+        },
+        {
+            "Location": "RightLeg",
+            "Hardpoints": [],
+            "Tonnage": 0,
+            "InventorySlots": 4,
+            "MaxArmor": 165,
+            "MaxRearArmor": -1,
+            "InternalStructure": 70
+        }
+    ],
+    "LOSSourcePositions": [
+        {
+            "x": 0,
+            "y": 13,
+            "z": 1
+        },
+        {
+            "x": 3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": -3,
+            "y": 13,
+            "z": 0
+        }
+    ],
+    "LOSTargetPositions": [
+        {
+            "x": 0,
+            "y": 13,
+            "z": 1
+        },
+        {
+            "x": 3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": -3,
+            "y": 13,
+            "z": 0
+        },
+        {
+            "x": 2,
+            "y": 5,
+            "z": 0
+        },
+        {
+            "x": -2,
+            "y": 5,
+            "z": 0
+        }
+    ],
+    "VariantName": "MS-09",
+    "ChassisTags": {
+        "items": [
+            "unit_humanoidHands"
+        ],
+        "tagSetSourceFile": ""
+    },
+    "StockRole": "Close Assault & Skirmisher",
+    "YangsThoughts": "Fastest thing Zeon's got, Commander, and it hits like an assault chassis when it arrives. Don't count on outrunning this one — count on it closing the gap before you're ready."
+}

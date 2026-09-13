@@ -1,0 +1,63 @@
+{
+    "Category" : "Ballistic",
+    "Type" : "Autocannon",
+    "WeaponSubType" : "AC5",
+    "MinRange" : 0,
+    "MaxRange" : 480,
+    "RangeSplit" : [
+        320,
+        320,
+        480
+    ],
+    "ammoCategoryID" : "AC5",
+    "StartingAmmoCapacity" : 0,
+    "HeatGenerated" : 6,
+    "Damage" : 40,
+    "OverheatedDamageMultiplier" : 0,
+    "EvasiveDamageMultiplier" : 0,
+    "EvasivePipsIgnored" : 0,
+    "DamageVariance" : 0,
+    "HeatDamage" : 0,
+    "AccuracyModifier" : 0,
+    "CriticalChanceMultiplier" : 1,
+    "AOECapable" : false,
+    "IndirectFireCapable" : false,
+    "RefireModifier" : 1,
+    "ShotsWhenFired" : 1,
+    "ProjectilesPerShot" : 1,
+    "AttackRecoil" : 1,
+    "Instability" : 8,
+    "WeaponEffectID" : "WeaponEffect-Weapon_AC5",
+    "Description" : {
+        "Cost" : 130000,
+        "Rarity" : 2,
+        "Purchasable" : false,
+        "Manufacturer" : "Anaheim Electronics",
+        "Model" : "Low-Recoil Cannon",
+        "UIName" : "Low-Recoil Cannon",
+        "Id" : "Weapon_Ballistic_LowRecoilCannon-Guncannon",
+        "Name" : "Low-Recoil Cannon",
+        "Details" : "The Guncannon's left-shoulder primary artillery piece. Lighter and faster-cycling than a true heavy cannon, at the cost of real effectiveness against mobile-suit-scale armor — a fire-support weapon, not an anti-armor specialist.",
+        "Icon" : "uixSvgIcon_weapon_Ballistic"
+    },
+    "BonusValueA" : "",
+    "BonusValueB" : "",
+    "ComponentType" : "Weapon",
+    "ComponentSubType" : "Weapon",
+    "PrefabIdentifier" : "AC5",
+    "BattleValue" : 0,
+    "InventorySize" : 2,
+    "Tonnage" : 7,
+    "AllowedLocations" : "All",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "gundamuc_weapon"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}

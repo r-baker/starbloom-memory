@@ -1,0 +1,17 @@
+# .NET build output
+dev-source/**/bin/
+dev-source/**/obj/
+
+# ModTek local per-install state (not project content)
+modstate.json
+
+# Private research reference — per docs/04-COPYRIGHT-GUIDELINES.md and
+# dev-reference/README.md, this never ships and never gets distributed,
+# and a public repo counts as distribution. Kept locally, not versioned.
+dev-reference/
+
+# Editor/OS cruft
+.vs/
+*.user
+Thumbs.db
+.DS_Store

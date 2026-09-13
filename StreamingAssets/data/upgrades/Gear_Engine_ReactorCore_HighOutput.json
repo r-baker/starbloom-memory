@@ -1,0 +1,87 @@
+{
+    "StatName" : null,
+    "RelativeModifier" : 0,
+    "AbsoluteModifier" : 0,
+    "Description" : {
+        "Cost" : 1600000,
+        "Rarity" : 6,
+        "Purchasable" : true,
+        "Manufacturer" : "Zeonic / Anaheim Electronics",
+        "Model" : "1,800kW-Class Reactor",
+        "UIName" : "Reactor Core (High-Output)",
+        "Id" : "Gear_Engine_ReactorCore_HighOutput",
+        "Name" : "Reactor Core (High-Output)",
+        "Details" : "A genuine higher-rated core, not just a tuned-up standard unit. Real output means real weight — the heaviest standard reactor option before a unit needs a lightweight housing to carry it comfortably.",
+        "Icon" : "uixSvgIcon_equipment_Engine"
+    },
+    "BonusValueA" : "+ 30% Walk Speed",
+    "BonusValueB" : "",
+    "ComponentType" : "Upgrade",
+    "ComponentSubType" : "NotSet",
+    "PrefabIdentifier" : "",
+    "BattleValue" : 0,
+    "InventorySize" : 4,
+    "Tonnage" : 4,
+    "AllowedLocations" : "CenterTorso",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+        {
+            "durationData" : {
+                "duration" : -1,
+                "ticksOnActivations" : false,
+                "useActivationsOfTarget" : false,
+                "ticksOnEndOfRound" : false,
+                "ticksOnMovements" : false,
+                "stackLimit" : 1,
+                "clearedWhenAttacked" : false
+            },
+            "targetingData" : {
+                "effectTriggerType" : "Passive",
+                "triggerLimit" : 0,
+                "extendDurationOnTrigger" : 0,
+                "specialRules" : "NotSet",
+                "effectTargetType" : "Creator",
+                "range" : 0,
+                "forcePathRebuild" : false,
+                "forceVisRebuild" : false,
+                "showInTargetPreview" : false,
+                "showInStatusPanel" : true
+            },
+            "effectType" : "StatisticEffect",
+            "Description" : {
+                "Id" : "StatusEffect-Speed-ReactorCore",
+                "Name" : "REACTOR OUTPUT INCREASED",
+                "Details" : "Walk speed increased by [AMT].",
+                "Icon" : "uixSvgIcon_equipment_Engine"
+            },
+            "nature" : "Buff",
+            "statisticData" : {
+                "appliesEachTick" : false,
+                "effectsPersistAfterDestruction" : false,
+                "statName" : "WalkSpeed",
+                "operation" : "Float_Multiply",
+                "modValue" : "1.30",
+                "modType" : "System.Single",
+                "additionalRules" : "NotSet",
+                "targetCollection" : "NotSet",
+                "targetWeaponCategory" : "NotSet",
+                "targetWeaponType" : "NotSet",
+                "targetAmmoCategory" : "NotSet",
+                "targetWeaponSubType" : "NotSet"
+            },
+            "tagData" : null,
+            "floatieData" : null,
+            "actorBurningData" : null,
+            "vfxData" : null,
+            "instantModData" : null,
+            "poorlyMaintainedEffectData" : null
+        }
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "gundamuc_weapon"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}

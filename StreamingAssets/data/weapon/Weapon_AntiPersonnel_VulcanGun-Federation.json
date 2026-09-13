@@ -1,0 +1,63 @@
+{
+    "Category" : "AntiPersonnel",
+    "Type" : "MachineGun",
+    "WeaponSubType" : "MachineGun",
+    "MinRange" : 0,
+    "MaxRange" : 120,
+    "RangeSplit" : [
+        120,
+        120,
+        120
+    ],
+    "ammoCategoryID" : "MG",
+    "StartingAmmoCapacity" : 0,
+    "HeatGenerated" : 0,
+    "Damage" : 4,
+    "OverheatedDamageMultiplier" : 0,
+    "EvasiveDamageMultiplier" : 0,
+    "EvasivePipsIgnored" : 0,
+    "DamageVariance" : 0,
+    "HeatDamage" : 0,
+    "AccuracyModifier" : 0,
+    "CriticalChanceMultiplier" : 1.5,
+    "AOECapable" : false,
+    "IndirectFireCapable" : false,
+    "RefireModifier" : 0,
+    "ShotsWhenFired" : 6,
+    "ProjectilesPerShot" : 1,
+    "AttackRecoil" : 0,
+    "Instability" : 0,
+    "WeaponEffectID" : "WeaponEffect-Weapon_MachineGun",
+    "Description" : {
+        "Cost" : 20000,
+        "Rarity" : 1,
+        "Purchasable" : false,
+        "Manufacturer" : "Earth Federation Forces",
+        "Model" : "Head Vulcan Gun",
+        "UIName" : "Vulcan Gun",
+        "Id" : "Weapon_AntiPersonnel_VulcanGun-Federation",
+        "Name" : "Vulcan Gun",
+        "Details" : "Head-mounted twin Vulcan guns, standard across the Federation's Project V-era mobile suit lineup. Point-defense weapons for anti-infantry and anti-missile work — very high rate of fire, negligible damage against armored targets.",
+        "Icon" : "uixSvgIcon_weapon_Support"
+    },
+    "BonusValueA" : "",
+    "BonusValueB" : "",
+    "ComponentType" : "Weapon",
+    "ComponentSubType" : "Weapon",
+    "PrefabIdentifier" : "MachineGun",
+    "BattleValue" : 0,
+    "InventorySize" : 1,
+    "Tonnage" : 0.5,
+    "AllowedLocations" : "All",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "gundamuc_weapon"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}

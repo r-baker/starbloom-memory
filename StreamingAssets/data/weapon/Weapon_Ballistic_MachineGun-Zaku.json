@@ -1,0 +1,63 @@
+{
+    "Category" : "Ballistic",
+    "Type" : "Autocannon",
+    "WeaponSubType" : "MachineGun",
+    "MinRange" : 0,
+    "MaxRange" : 300,
+    "RangeSplit" : [
+        200,
+        200,
+        300
+    ],
+    "ammoCategoryID" : "MG",
+    "StartingAmmoCapacity" : 0,
+    "HeatGenerated" : 5,
+    "Damage" : 8,
+    "OverheatedDamageMultiplier" : 0,
+    "EvasiveDamageMultiplier" : 0,
+    "EvasivePipsIgnored" : 0,
+    "DamageVariance" : 0,
+    "HeatDamage" : 0,
+    "AccuracyModifier" : 0,
+    "CriticalChanceMultiplier" : 1.3,
+    "AOECapable" : false,
+    "IndirectFireCapable" : false,
+    "RefireModifier" : 0,
+    "ShotsWhenFired" : 5,
+    "ProjectilesPerShot" : 1,
+    "AttackRecoil" : 1,
+    "Instability" : 8,
+    "WeaponEffectID" : "WeaponEffect-Weapon_MachineGun",
+    "Description" : {
+        "Cost" : 130000,
+        "Rarity" : 2,
+        "Purchasable" : false,
+        "Manufacturer" : "Zeonic",
+        "Model" : "ZMP-50D",
+        "UIName" : "120mm Machine Gun",
+        "Id" : "Weapon_Ballistic_MachineGun-Zaku",
+        "Name" : "120mm Machine Gun",
+        "Details" : "The Zaku II's standard-issue drum-fed machine gun. Not elegant, not precise — just reliable, mass-producible firepower that every Zeon pilot trains on. A hundred rounds in the drum and more waiting on the resupply ship.",
+        "Icon" : "uixSvgIcon_weapon_Ballistic"
+    },
+    "BonusValueA" : "",
+    "BonusValueB" : "",
+    "ComponentType" : "Weapon",
+    "ComponentSubType" : "Weapon",
+    "PrefabIdentifier" : "MachineGun",
+    "BattleValue" : 0,
+    "InventorySize" : 2,
+    "Tonnage" : 6,
+    "AllowedLocations" : "All",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "gundamuc_weapon"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}

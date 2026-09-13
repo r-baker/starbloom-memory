@@ -1,0 +1,63 @@
+{
+    "Category" : "Ballistic",
+    "Type" : "Autocannon",
+    "WeaponSubType" : "MachineGun",
+    "MinRange" : 0,
+    "MaxRange" : 280,
+    "RangeSplit" : [
+        180,
+        180,
+        280
+    ],
+    "ammoCategoryID" : "MG",
+    "StartingAmmoCapacity" : 0,
+    "HeatGenerated" : 6,
+    "Damage" : 7,
+    "OverheatedDamageMultiplier" : 0,
+    "EvasiveDamageMultiplier" : 0,
+    "EvasivePipsIgnored" : 0,
+    "DamageVariance" : 0,
+    "HeatDamage" : 0,
+    "AccuracyModifier" : 0,
+    "CriticalChanceMultiplier" : 1.3,
+    "AOECapable" : false,
+    "IndirectFireCapable" : false,
+    "RefireModifier" : 0,
+    "ShotsWhenFired" : 7,
+    "ProjectilesPerShot" : 1,
+    "AttackRecoil" : 1,
+    "Instability" : 10,
+    "WeaponEffectID" : "WeaponEffect-Weapon_MachineGun",
+    "Description" : {
+        "Cost" : 150000,
+        "Rarity" : 2,
+        "Purchasable" : false,
+        "Manufacturer" : "Zimmad",
+        "Model" : "Forearm Twin Machine Gun",
+        "UIName" : "Forearm Machine Guns",
+        "Id" : "Weapon_Ballistic_ForearmMG-Gouf",
+        "Name" : "Forearm Machine Guns",
+        "Details" : "The Gouf's left-forearm armament — a 75mm gun paired with a 3-barrel 35mm gun mounted beneath it, both fixed to the same arm and fired together. Not the Gouf's real threat, but enough to soften a target before the heat rod finishes the job.",
+        "Icon" : "uixSvgIcon_weapon_Ballistic"
+    },
+    "BonusValueA" : "",
+    "BonusValueB" : "",
+    "ComponentType" : "Weapon",
+    "ComponentSubType" : "Weapon",
+    "PrefabIdentifier" : "MachineGun",
+    "BattleValue" : 0,
+    "InventorySize" : 2,
+    "Tonnage" : 7,
+    "AllowedLocations" : "All",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "gundamuc_weapon"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}

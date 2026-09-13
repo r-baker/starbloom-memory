@@ -1,0 +1,21 @@
+{
+   "Description" : {
+      "Id" : "movedef_ez8_RX-79G",
+      "Name" : "MovementCapabilitiesDef for Gundam Ez8 RX-79[G]Ez-8",
+      "Details" : "",
+      "Icon" : ""
+   },
+   "MaxWalkDistance" : 150.0,
+   "MaxSprintDistance" : 250.0,
+   "WalkVelocity" : 18.0,
+   "RunVelocity" : 39.0,
+   "SprintVelocity" : 47.0,
+   "LimpVelocity" : 8.0,
+   "WalkAcceleration" : 16.0,
+   "SprintAcceleration" : 22.0,
+   "MaxRadialVelocity" : 78.0,
+   "MaxRadialAcceleration" : 220.0,
+   "MaxJumpVel" : 32.0,
+   "MaxJumpAccel" : 17.0,
+   "MaxJumpVerticalAccel" : 32.0
+}

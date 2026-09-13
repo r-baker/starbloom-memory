@@ -1,0 +1,89 @@
+{
+    "StatName" : null,
+    "RelativeModifier" : 0,
+    "AbsoluteModifier" : 0,
+    "Description" : {
+        "Cost" : 460000,
+        "Rarity" : 3,
+        "Purchasable" : false,
+        "Manufacturer" : "Earth Federation Forces",
+        "Model" : "Enclosed Beam Saber",
+        "UIName" : "Beam Saber",
+        "Id" : "Gear_Actuator_GroundType_BeamSaber",
+        "Name" : "Beam Saber",
+        "Details" : "One of a pair racked in enclosed leg-mounted housings — genuine Gundam-lineage beam sabers, built to survive ground combat's dust and debris instead of sitting exposed on a hip mount.",
+        "Icon" : "UixSvgIcon_specialEquip_Melee"
+    },
+    "BonusValueA" : "+ 70 Melee Dmg.",
+    "BonusValueB" : "",
+    "ComponentType" : "Upgrade",
+    "ComponentSubType" : "NotSet",
+    "PrefabIdentifier" : "",
+    "BattleValue" : 0,
+    "InventorySize" : 1,
+    "Tonnage" : 3,
+    "AllowedLocations" : "Arms",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+        {
+            "durationData" : {
+                "duration" : -1,
+                "ticksOnActivations" : false,
+                "useActivationsOfTarget" : false,
+                "ticksOnEndOfRound" : false,
+                "ticksOnMovements" : false,
+                "stackLimit" : -1,
+                "clearedWhenAttacked" : false
+            },
+            "targetingData" : {
+                "effectTriggerType" : "Passive",
+                "triggerLimit" : 0,
+                "extendDurationOnTrigger" : 0,
+                "specialRules" : "NotSet",
+                "effectTargetType" : "Creator",
+                "range" : 0,
+                "forcePathRebuild" : false,
+                "forceVisRebuild" : false,
+                "showInTargetPreview" : false,
+                "showInStatusPanel" : true
+            },
+            "effectType" : "StatisticEffect",
+            "Description" : {
+                "Id" : "StatusEffect-Attack_DamageMelee-GroundTypeBeamSaber",
+                "Name" : "MELEE DAMAGE INCREASED",
+                "Details" : "Melee attacks deal [AMT] more damage.",
+                "Icon" : "uixSvgIcon_equipment_ActuatorArm"
+            },
+            "nature" : "Buff",
+            "statisticData" : {
+                "appliesEachTick" : false,
+                "effectsPersistAfterDestruction" : false,
+                "statName" : "DamagePerShot",
+                "operation" : "Float_Add",
+                "modValue" : "70.0",
+                "modType" : "System.Single",
+                "additionalRules" : "NotSet",
+                "targetCollection" : "Weapon",
+                "targetWeaponCategory" : "NotSet",
+                "targetWeaponType" : "NotSet",
+                "targetAmmoCategory" : "NotSet",
+                "targetWeaponSubType" : "Melee"
+            },
+            "tagData" : null,
+            "floatieData" : null,
+            "actorBurningData" : null,
+            "vfxData" : null,
+            "instantModData" : null,
+            "poorlyMaintainedEffectData" : null
+        }
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "BUILT-IN",
+            "gundamuc_weapon",
+            "gundamuc_storage"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}

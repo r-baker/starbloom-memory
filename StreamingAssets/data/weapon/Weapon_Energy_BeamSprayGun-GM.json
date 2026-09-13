@@ -1,0 +1,63 @@
+{
+    "Category" : "Energy",
+    "Type" : "Laser",
+    "WeaponSubType" : "MediumLaser",
+    "MinRange" : 0,
+    "MaxRange" : 250,
+    "RangeSplit" : [
+        170,
+        170,
+        250
+    ],
+    "ammoCategoryID" : "NotSet",
+    "StartingAmmoCapacity" : 0,
+    "HeatGenerated" : 10,
+    "Damage" : 22,
+    "OverheatedDamageMultiplier" : 0,
+    "EvasiveDamageMultiplier" : 0,
+    "EvasivePipsIgnored" : 0,
+    "DamageVariance" : 0,
+    "HeatDamage" : 0,
+    "AccuracyModifier" : -1,
+    "CriticalChanceMultiplier" : 1,
+    "AOECapable" : false,
+    "IndirectFireCapable" : false,
+    "RefireModifier" : 0,
+    "ShotsWhenFired" : 1,
+    "ProjectilesPerShot" : 1,
+    "AttackRecoil" : 1,
+    "Instability" : 0,
+    "WeaponEffectID" : "WeaponEffect-Weapon_Laser_Medium",
+    "Description" : {
+        "Cost" : 55000,
+        "Rarity" : 1,
+        "Purchasable" : false,
+        "Manufacturer" : "Earth Federation Forces",
+        "Model" : "BR-M-79C",
+        "UIName" : "Beam Spray Gun",
+        "Id" : "Weapon_Energy_BeamSprayGun-GM",
+        "Name" : "Beam Spray Gun",
+        "Details" : "A mass-producible beam weapon, deliberately simplified from the Gundam-line's beam rifle so it can be built on an assembly line rather than hand-fitted. Weaker shot for shot, but the Federation can finally field beam weapons by the hundred instead of the handful.",
+        "Icon" : "uixSvgIcon_weapon_Energy"
+    },
+    "BonusValueA" : "",
+    "BonusValueB" : "",
+    "ComponentType" : "Weapon",
+    "ComponentSubType" : "Weapon",
+    "PrefabIdentifier" : "Laser",
+    "BattleValue" : 0,
+    "InventorySize" : 1,
+    "Tonnage" : 3,
+    "AllowedLocations" : "All",
+    "DisallowedLocations" : "All",
+    "CriticalComponent" : false,
+    "statusEffects" : [
+
+    ],
+    "ComponentTags" : {
+        "items" : [
+            "gundamuc_weapon"
+        ],
+        "tagSetSourceFile" : ""
+    }
+}
