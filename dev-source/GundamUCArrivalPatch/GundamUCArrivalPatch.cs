@@ -217,6 +217,43 @@ namespace GundamUCArrivalPatch
             cachedTimeWidget = widget;
         }
 
+        // Breathing room past the text's own measured width, so the line
+        // never sits flush against the frame edge.
+        private const float ClockWidthPadding = 24f;
+
+        // Confirmed in-game 2026-09-16: the stock widget is sized for
+        // "Week 1  Day 3"-length text, so "00:00   31 DECEMBER, UC 0079"
+        // wrapped and dropped "0079" onto the DayPips row below it.
+        //
+        // Must be called AFTER SetText — it sizes the rect from TMP's own
+        // preferredWidth for the current string rather than a guessed pixel
+        // constant, which keeps it correct for any date length (1 vs 31,
+        // March vs September) and makes it naturally idempotent: once the
+        // rect is wide enough, repeated calls do nothing. An additive
+        // "+= someWidth" here would instead inflate the rect on every
+        // refresh, which at 4 refreshes a day would get ugly fast.
+        //
+        // Disabling word wrapping is the real guarantee though — widening
+        // gives the line visual room, but if a parent LayoutGroup ever
+        // overrides the width, wrapping being off still keeps the date on
+        // one line instead of colliding with the pips again.
+        private static void ApplyClockLayout(LocalizableText text)
+        {
+            text.enableWordWrapping = false;
+
+            RectTransform rect = text.rectTransform;
+            if (rect == null)
+            {
+                return;
+            }
+
+            float needed = text.preferredWidth + ClockWidthPadding;
+            if (rect.sizeDelta.x < needed)
+            {
+                rect.sizeDelta = new Vector2(needed, rect.sizeDelta.y);
+            }
+        }
+
         public static string FormatDateTime(SimGameState sim)
         {
             System.Globalization.CultureInfo invariant =
@@ -228,6 +265,20 @@ namespace GundamUCArrivalPatch
                 sim.CurrentDate.ToString("d MMMM, 'UC' yyyy", invariant));
         }
 
+        // Single render path shared by both callers (the once-per-day SetDay
+        // Postfix and the hourly refresh below), so the text and the layout
+        // fix can never drift apart.
+        public static void RenderInto(LocalizableText text, SimGameState sim)
+        {
+            if (text == null || sim == null)
+            {
+                return;
+            }
+
+            text.SetText(FormatDateTime(sim));
+            ApplyClockLayout(text);
+        }
+
         public static void RefreshTimeDisplay(SimGameState sim)
         {
             if (sim == null || cachedTimeWidget == null)
@@ -235,14 +286,9 @@ namespace GundamUCArrivalPatch
                 return;
             }
 
-            LocalizableText text = Traverse.Create(cachedTimeWidget)
-                .Field("timePassedText").GetValue<LocalizableText>();
-            if (text == null)
-            {
-                return;
-            }
-
-            text.SetText(FormatDateTime(sim));
+            RenderInto(
+                Traverse.Create(cachedTimeWidget).Field("timePassedText").GetValue<LocalizableText>(),
+                sim);
         }
 
         public static int GetHourOfDay(SimGameState sim)
@@ -1026,8 +1072,9 @@ namespace GundamUCArrivalPatch
             // Invariant (English) culture is forced inside FormatDateTime —
             // without it, month names follow the Mono runtime's ambient OS
             // locale, which isn't necessarily English even though the rest of
-            // the game's UI is.
-            ___timePassedText.SetText(GundamUCClock.FormatDateTime(___simState));
+            // the game's UI is. RenderInto also re-applies the no-wrap/width
+            // fix, since the widget may have been rebuilt since the last call.
+            GundamUCClock.RenderInto(___timePassedText, ___simState);
         }
     }
 
