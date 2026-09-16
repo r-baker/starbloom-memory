@@ -248,9 +248,26 @@ namespace GundamUCArrivalPatch
             }
 
             float needed = text.preferredWidth + ClockWidthPadding;
-            if (rect.sizeDelta.x < needed)
+            if (rect.sizeDelta.x >= needed)
             {
-                rect.sizeDelta = new Vector2(needed, rect.sizeDelta.y);
+                return;
+            }
+
+            float delta = needed - rect.sizeDelta.x;
+            rect.sizeDelta = new Vector2(needed, rect.sizeDelta.y);
+
+            // The dark backing plate behind the label is NOT one of
+            // SGTimePlayPause's serialized fields (confirmed via decompile —
+            // it exposes theButton/textField/timePassedText/DayPips/etc. but
+            // nothing for the background), so it can only be reached by
+            // walking the live hierarchy. Widening the label's parent by the
+            // same delta is what makes the plate track the text; confirmed
+            // in-game 2026-09-16 that the parent IS the backing plate, so no
+            // deeper hierarchy search is needed.
+            RectTransform parent = rect.parent as RectTransform;
+            if (parent != null)
+            {
+                parent.sizeDelta = new Vector2(parent.sizeDelta.x + delta, parent.sizeDelta.y);
             }
         }
 
