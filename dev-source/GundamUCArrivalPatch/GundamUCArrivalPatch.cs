@@ -199,6 +199,52 @@ namespace GundamUCArrivalPatch
 
         private const string HourOfDayStat = "GundamUC_HourOfDay";
 
+        // Cached so the clock can be re-rendered on an hour tick. SetDay only
+        // fires once per real DAY (SGRoomManager.RefreshDay is called from
+        // OnDayPassed's timeLapse==0 branch), so without this the readout
+        // would never show any hour except 00:00.
+        //
+        // Deliberately caches the COMPONENT and re-reads its text field on
+        // each refresh rather than caching the LocalizableText directly —
+        // stale cached UI references are exactly what caused the long
+        // Handheld-panel debugging saga (see 03-TECHNICAL-NOTES.md). Unity's
+        // overridden == catches a destroyed component, so a stale cache just
+        // skips a refresh and gets replaced on the next real SetDay call.
+        private static SGTimePlayPause cachedTimeWidget;
+
+        public static void CacheTimeWidget(SGTimePlayPause widget)
+        {
+            cachedTimeWidget = widget;
+        }
+
+        public static string FormatDateTime(SimGameState sim)
+        {
+            System.Globalization.CultureInfo invariant =
+                System.Globalization.CultureInfo.InvariantCulture;
+            return string.Format(
+                invariant,
+                "{0:00}:00   {1}",
+                GetHourOfDay(sim),
+                sim.CurrentDate.ToString("d MMMM, 'UC' yyyy", invariant));
+        }
+
+        public static void RefreshTimeDisplay(SimGameState sim)
+        {
+            if (sim == null || cachedTimeWidget == null)
+            {
+                return;
+            }
+
+            LocalizableText text = Traverse.Create(cachedTimeWidget)
+                .Field("timePassedText").GetValue<LocalizableText>();
+            if (text == null)
+            {
+                return;
+            }
+
+            text.SetText(FormatDateTime(sim));
+        }
+
         public static int GetHourOfDay(SimGameState sim)
         {
             if (sim?.CompanyStats == null)
@@ -267,6 +313,11 @@ namespace GundamUCArrivalPatch
             if (hour < GundamUCClock.HoursPerDay)
             {
                 GundamUCClock.SetHourOfDay(__instance, hour);
+                // Only needed on the suppressed ticks. On the day-boundary
+                // tick below, the original body runs and vanilla's own
+                // RoomManager.RefreshDay() -> SetDay() re-renders the clock
+                // with the newly-incremented date for us.
+                GundamUCClock.RefreshTimeDisplay(__instance);
                 return false;
             }
 
@@ -937,31 +988,46 @@ namespace GundamUCArrivalPatch
         }
     }
 
-    // Quick cosmetic fix, not the full Section B sub-day-granularity rework:
     // SGTimePlayPause.SetDay(int daysPassed) computes "Week {0}  Day {1}" from
     // pure elapsed-days-since-Career-start math (daysPassed/7+1, daysPassed%7+1)
     // — it never reads CampaignStartDate/CurrentDate at all, which is why
     // changing the campaign start year had no effect on this label. This
-    // Postfix overwrites the label with the real in-fiction calendar date
-    // instead. Expected to be replaced, not extended, once the full sub-day
-    // time system (hour-of-day, night missions) gets built — that rework will
-    // need to touch this same class anyway.
+    // Postfix overwrites the label with the real in-fiction calendar date.
+    //
+    // Step 6 slice 2 (2026-09-16) extends this to carry the hour as well, so
+    // the readout reads "06:00   17 January, UC 0079". Confirmed via decompile
+    // that SetDay is display-only — it computes a label, animates 7 DayPips,
+    // plays a UI ping, and calls CheckForLaunchVisbility() (a void nothing
+    // reads) — so overwriting its text has no mechanical side effects.
+    //
+    // Note the cadence problem this does NOT solve on its own: SetDay's only
+    // call site is SGRoomManager.RefreshDay(), invoked from OnDayPassed's
+    // timeLapse==0 branch, i.e. once per real DAY. That's why the hour-clock
+    // Prefix drives its own refresh on the suppressed ticks via
+    // GundamUCClock.RefreshTimeDisplay — this Postfix alone would only ever
+    // render 00:00.
     [HarmonyPatch(typeof(SGTimePlayPause), "SetDay")]
     public static class SGTimePlayPause_SetDay_Patch
     {
-        public static void Postfix(LocalizableText ___timePassedText, SimGameState ___simState)
+        public static void Postfix(
+            SGTimePlayPause __instance,
+            LocalizableText ___timePassedText,
+            SimGameState ___simState)
         {
             if (___timePassedText == null || ___simState == null)
             {
                 return;
             }
 
-            DateTime currentDate = ___simState.CurrentDate;
-            // Force invariant (English) culture — without it, month names follow
-            // the Mono runtime's ambient OS locale, which isn't necessarily
-            // English even though the rest of the game's UI is.
-            ___timePassedText.SetText(currentDate.ToString(
-                "d MMMM, 'UC' yyyy", System.Globalization.CultureInfo.InvariantCulture));
+            // Re-cache on every real day tick, so a rebuilt/replaced widget
+            // never leaves the hourly refresh pointing at a dead object.
+            GundamUCClock.CacheTimeWidget(__instance);
+
+            // Invariant (English) culture is forced inside FormatDateTime —
+            // without it, month names follow the Mono runtime's ambient OS
+            // locale, which isn't necessarily English even though the rest of
+            // the game's UI is.
+            ___timePassedText.SetText(GundamUCClock.FormatDateTime(___simState));
         }
     }
 
