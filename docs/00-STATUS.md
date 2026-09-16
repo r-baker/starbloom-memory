@@ -1,6 +1,32 @@
 # Current Status — Read This First
 
-## Roadmap Step 6 slice 1 — hour-granular time, BUILT, NOT YET TESTED (2026-09-16)
+## Step 6 slices 1+2 VERIFIED IN-GAME — tagged v0.0.1 (2026-09-16)
+
+Confirmed working in a real career: the tick advances in 6-hour steps
+(00:00 → 06:00 → 12:00 → 18:00), the date rolls over correctly at 00:00,
+and the clock reads e.g. `00:00   31 DECEMBER, UC 0078` on one line with
+the backing plate sized to match.
+
+Two UI issues found and fixed during verification:
+1. The full date string wrapped, dropping the year onto the DayPips row.
+   Fixed by disabling word wrapping (the real guarantee) and sizing the
+   rect from TMP's own `preferredWidth` rather than a guessed constant.
+2. The dark backing plate didn't grow with the text. It is not a
+   serialized field on `SGTimePlayPause` (confirmed via decompile), so it
+   had to be reached by walking the live hierarchy — the label's parent
+   turned out to BE the plate, so widening the parent by the same delta
+   tracks it correctly.
+
+**Still open for Step 6 (so this is 0.0.1, not 0.1.0 — the roadmap point
+is NOT complete):**
+- **True 24-hour clock.** Currently 6-hour granularity, forced by the
+  frame-rate constraint documented in `03-TECHNICAL-NOTES.md`. Next task.
+- **Night missions** — the actual gameplay payoff of the whole step.
+  Requires a Harmony override of `LineOfSight`'s spotter/sensor-range
+  methods driven by our hour clock (RogueTech's LowVisibility pattern).
+  Not started.
+
+## Roadmap Step 6 slice 1 — hour-granular time (2026-09-16)
 
 First slice of the time-granularity rework. Two research passes preceded
 any code (see `03-TECHNICAL-NOTES.md` for the full writeup), and they
