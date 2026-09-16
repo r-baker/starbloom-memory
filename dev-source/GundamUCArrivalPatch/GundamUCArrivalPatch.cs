@@ -154,6 +154,130 @@ namespace GundamUCArrivalPatch
         }
     }
 
+    // Roadmap Step 6, slice 1 (2026-09-16): hour-granular campaign time.
+    //
+    // Vanilla has NO sub-day state anywhere — `SimGameState.DaysPassed` is a
+    // plain int and `CurrentDate` is just `campaignStart.AddDays(DaysPassed)`.
+    // Rather than redefine what a "day" means internally (which would break
+    // every int day-counter in the game), this keeps the entire existing
+    // day-tick machinery untouched and simply gates how often it fires:
+    // `SimGameState.Update()`'s real-time accumulator keeps calling
+    // OnDayPassed() at exactly its stock rate, this patch counts those calls
+    // as HOURS, and only lets the real method body run once a full day has
+    // accumulated.
+    //
+    // Confirmed via decompile that everything downstream already does "one
+    // unit of work per OnDayPassed call" rather than "N units for N days",
+    // so all of it inherits the new granularity for free with zero changes:
+    // travel countdown (SGTravelManager.OnDayPassed), repair/refit paydown
+    // (UpdateMechLabWorkQueue -> WorkOrderEntry.PayCost), pilot injury
+    // (UpdateInjuries -> MedBayQueue), Flashpoint gating (DaysActive/
+    // DaysOnNode), contract expiration, and this mod's own two
+    // FlashpointDayPassed patches above (self-guarded by CompanyStats
+    // booleans, so idempotent and frequency-agnostic).
+    public static class GundamUCClock
+    {
+        // How many in-fiction hours each stock Update() tick represents.
+        // 6 is deliberate, not a placeholder: dividing the stock thresholds
+        // (DayElapseTimeNormal 1.25s / DayElapseTimeFast 0.33s) down to a
+        // true 1-hour tick would put the fast threshold at ~0.0138s, SHORTER
+        // than a single 60fps frame (0.0167s). Because Update() does
+        // `realTimeElapsed = 0f` — a hard reset that discards the remainder
+        // rather than subtracting the threshold — a sub-frame threshold would
+        // silently make time passage frame-rate dependent (a 144Hz machine
+        // would run the campaign clock ~2.4x faster than a 60Hz one). At 6
+        // hours/tick the stock thresholds are left completely alone, so that
+        // failure mode cannot occur. 00:00/06:00/12:00/18:00 also maps
+        // cleanly onto vanilla's own mood_timeNight/Sunrise/Day/Sunset tags,
+        // which is what slice 2's night-mission work will key off.
+        //
+        // Lowering this for a finer clock REQUIRES also lowering the
+        // DayElapseTime* constants to keep day-pacing sane, and must respect
+        // the one-frame floor above. Do not change it in isolation.
+        public const int HoursPerTick = 6;
+        public const int HoursPerDay = 24;
+
+        private const string HourOfDayStat = "GundamUC_HourOfDay";
+
+        public static int GetHourOfDay(SimGameState sim)
+        {
+            if (sim?.CompanyStats == null)
+            {
+                return 0;
+            }
+            if (!sim.CompanyStats.ContainsStatistic(HourOfDayStat))
+            {
+                sim.CompanyStats.AddStatistic(HourOfDayStat, 0);
+                return 0;
+            }
+            return sim.CompanyStats.GetStatistic(HourOfDayStat).Value<int>();
+        }
+
+        public static void SetHourOfDay(SimGameState sim, int hour)
+        {
+            if (sim?.CompanyStats == null)
+            {
+                return;
+            }
+            if (sim.CompanyStats.ContainsStatistic(HourOfDayStat))
+            {
+                sim.CompanyStats.GetStatistic(HourOfDayStat).SetValue(hour);
+            }
+            else
+            {
+                sim.CompanyStats.AddStatistic(HourOfDayStat, hour);
+            }
+        }
+    }
+
+    // THE ONE SKIP-ORIGINAL PREFIX IN THIS ENTIRE MOD — see
+    // docs/03-TECHNICAL-NOTES.md for why, and do not copy this pattern
+    // casually. Every other patch here is a Postfix on purpose. A Postfix
+    // genuinely cannot work for this one: by the time it would run,
+    // DaysPassed has already incremented and every cascading day-tick effect
+    // (travel countdown, repair paydown, injury healing, Flashpoint gating,
+    // contract expiry, event rolls) has already fired. There is no way to
+    // un-ring that bell after the fact, so suppressing the tick has to happen
+    // before the body runs. This is the narrowest form of the deviation:
+    // it never rewrites or replaces any vanilla logic, it only decides
+    // WHETHER the untouched original runs on this particular call.
+    [HarmonyPatch(typeof(SimGameState), "OnDayPassed")]
+    public static class SimGameState_OnDayPassed_HourClock_Patch
+    {
+        public static bool Prefix(SimGameState __instance, int timeLapse)
+        {
+            // Explicit decision on the debug/scripted multi-day lump path
+            // (SimGameState.OnTimeSkipTravelPathFound sums a whole travel
+            // route and calls OnDayPassed(num) directly). It is NOT reachable
+            // from normal player travel — confirmed via decompile that its
+            // only callers are TravelToSystemByString(loc, timeSkip:true)
+            // from scripted/debug action handlers. Such a call is an explicit
+            // "skip N whole days" command, so it deliberately bypasses the
+            // hour clock entirely and passes straight through rather than
+            // being reinterpreted as N hours. The hour-of-day is intentionally
+            // left unchanged across such a jump: N whole days later is the
+            // same time of day.
+            if (timeLapse > 0)
+            {
+                return true;
+            }
+
+            int hour = GundamUCClock.GetHourOfDay(__instance) + GundamUCClock.HoursPerTick;
+
+            if (hour < GundamUCClock.HoursPerDay)
+            {
+                GundamUCClock.SetHourOfDay(__instance, hour);
+                return false;
+            }
+
+            // Carry the remainder rather than resetting to 0, so this stays
+            // correct even if HoursPerTick is later changed to something that
+            // doesn't divide 24 evenly.
+            GundamUCClock.SetHourOfDay(__instance, hour - GundamUCClock.HoursPerDay);
+            return true;
+        }
+    }
+
     // Dev/testing convenience: hide every stock BattleTech 'Mech from the
     // Skirmish mechbay so only this mod's own units show up, making it fast
     // to find whichever custom unit is actually being tested instead of

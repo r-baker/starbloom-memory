@@ -1,5 +1,52 @@
 # Current Status — Read This First
 
+## Roadmap Step 6 slice 1 — hour-granular time, BUILT, NOT YET TESTED (2026-09-16)
+
+First slice of the time-granularity rework. Two research passes preceded
+any code (see `03-TECHNICAL-NOTES.md` for the full writeup), and they
+changed the plan twice for good reasons:
+
+1. **The roadmap's assumed hook was wrong.**
+   `SpottingVisibilityMultiplier`/`Absolute` are NOT fields in
+   `SimGameConstants` — they're per-actor stealth properties on
+   `AbstractActor`, not a global day/night dial. Corrected in the notes.
+   The real night-mission lever is a Harmony override of `LineOfSight`'s
+   spotter/sensor-range methods (the approach RogueTech's LowVisibility
+   mod uses). That's slice 3 work, not built yet.
+2. **A naive "1 hour per tick" would have silently broken.** Dividing the
+   stock `DayElapseTime*` constants by 24 puts the fast threshold below a
+   single 60fps frame, which — combined with `Update()`'s hard
+   `realTimeElapsed = 0f` reset — would have made campaign time passage
+   frame-rate dependent. Caught before building. Ticks are 6 in-fiction
+   hours instead, with the stock constants left untouched.
+
+**Built:** `GundamUCClock` (hour-of-day state via CompanyStats, matching
+the existing `GundamUC_*` convention) and
+`SimGameState_OnDayPassed_HourClock_Patch` — a Prefix that counts each
+stock tick as 6 hours and only lets the untouched original `OnDayPassed`
+body run once 24 accumulate. **This is the only skip-original Prefix in
+the mod**; the reasoning and the "don't copy this casually" warning are
+documented in `03-TECHNICAL-NOTES.md`. The debug `timeSkip` lump path is
+explicitly passed through and documented as a known intentional gap.
+
+**Nothing else changed** — no JSON edits, and no changes to travel, the
+repair queue, injuries, Flashpoint gating, or the existing Gundam-arrival
+patches, all of which inherit the new granularity automatically because
+they already do one unit of work per tick rather than N per N days.
+
+**Expected in-game:** days should now take ~4× longer in real time (4
+ticks per day instead of 1) at both normal and fast speed. That is the
+intended, easily-tunable consequence of this slice, not a bug — pacing
+gets restored via the `DayElapseTime*` constants once the mechanism is
+proven.
+
+**Needs verification before slice 2:** travel countdown, repair/refit
+paydown, pilot injury healing, Flashpoint gating, and above all the
+Prototype Gundam arrival event must all still fire correctly across
+several in-game days. Slice 2 (visible hour readout on `SGTimePlayPause`)
+does not start until this is confirmed.
+
+
 ## CONFIRMED WORKING: all three starting units, full career battle, won (2026-09-11)
 
 User tested all three fixes from this session's final pass in a real

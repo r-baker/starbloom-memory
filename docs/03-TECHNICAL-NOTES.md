@@ -1063,6 +1063,84 @@ after the sweep, which recomputes all four counts straight from
 `localInventory` — the same method the widget calls internally after
 any normal add/remove.
 
+## THE ONE SKIP-ORIGINAL PREFIX IN THIS MOD — hour-granular time
+## (2026-09-16, Roadmap Step 6 slice 1)
+
+**Read this before copying the Prefix pattern anywhere else.** Every other
+Harmony patch in `GundamUCArrivalPatch.cs` is a Postfix, deliberately —
+including cases where a Prefix looked easier (see the `CalculateTonnage`
+armor-weight notes above, which went out of their way to stay a Postfix by
+subtracting-and-re-adding rather than replacing vanilla's math).
+`SimGameState_OnDayPassed_HourClock_Patch` is the single exception.
+
+**Why a Postfix genuinely cannot work here.** The patch's whole job is to
+*suppress* a day tick that shouldn't have happened yet. By the time a
+Postfix on `OnDayPassed` would run, `DaysPassed` has already incremented
+and every cascading day-tick effect has already fired — travel countdown
+(`SGTravelManager.OnDayPassed`), repair/refit paydown
+(`UpdateMechLabWorkQueue` → `WorkOrderEntry.PayCost`), pilot injury healing
+(`UpdateInjuries` → `MedBayQueue`), Flashpoint gating, contract expiry, and
+the random-event roll. None of that is reversible after the fact. The
+decision to run or not run has to happen *before* the body executes, which
+only a Prefix can do.
+
+**It is the narrowest possible form of the deviation.** It never rewrites,
+replaces, or reimplements any vanilla logic — the original method body is
+completely untouched. The Prefix only decides *whether* the untouched
+original runs on this particular call. That distinction matters: a
+skip-original Prefix that reimplements behavior is a maintenance hazard
+(it silently diverges from vanilla when the game updates); one that only
+gates invocation frequency is not.
+
+**How the design works.** Vanilla has zero sub-day state — `DaysPassed` is
+a plain `int`, `CurrentDate` is just `campaignStart.AddDays(DaysPassed)`.
+So rather than redefining what a "day" means internally (which would break
+every int day-counter in the game simultaneously),
+`SimGameState.Update()`'s real-time accumulator is left firing at its exact
+stock rate, and this patch reinterprets each of those calls as **6 hours**
+rather than one day, letting the real body run only once 24 accumulate.
+Confirmed via decompile that everything downstream already does "one unit
+of work per `OnDayPassed` call" rather than "N units of work for N days,"
+so all of it — travel, repairs, injuries, Flashpoint gating, contract
+timers, and this mod's own two `FlashpointDayPassed` patches (self-guarded
+by CompanyStats booleans, therefore idempotent and frequency-agnostic) —
+inherits the new granularity with **zero changes**.
+
+**Why 6 hours per tick and not 1.** This is a real constraint, not an
+arbitrary choice. `DayElapseTimeNormal`/`DayElapseTimeFast` live in
+`SimGameConstants.json` (1.25s and 0.33s per simulated day). Dividing them
+by 24 for a true 1-hour tick would put the fast threshold at ~0.0138s —
+**shorter than a single 60fps frame (0.0167s)**. Because `Update()` does
+`realTimeElapsed = 0f`, a hard reset that discards the remainder rather
+than subtracting the threshold, a sub-frame threshold would silently make
+campaign time passage frame-rate dependent (a 144Hz machine would run the
+clock ~2.4× faster than a 60Hz one). At 6 hours/tick the stock thresholds
+are not touched at all, so that failure mode cannot occur.
+`00:00/06:00/12:00/18:00` also maps cleanly onto vanilla's own
+`mood_timeNight`/`Sunrise`/`Day`/`Sunset` tags, which is what the
+night-mission work keys off. **Lowering `HoursPerTick` requires also
+lowering the `DayElapseTime*` constants to keep day pacing sane, and must
+respect the one-frame floor. Do not change it in isolation.**
+
+**Known, deliberate gap: the debug `timeSkip` lump path.** `SimGameState
+.OnTimeSkipTravelPathFound` sums an entire travel route's day cost and
+calls `OnDayPassed(num)` directly with `num > 1`, bypassing the per-day
+countdown entirely. **Confirmed via decompile that this is not reachable
+from normal player travel** — its only callers are
+`TravelToSystemByString(loc, timeSkip: true)` from scripted/debug action
+handlers. The patch passes any `timeLapse > 0` call straight through
+untouched, treating it as an explicit "skip N whole days" command rather
+than reinterpreting it as N hours, and deliberately leaves hour-of-day
+unchanged across such a jump (N whole days later is the same time of day).
+This is an intentional decision, not an oversight. If a future feature ever
+routes *real* player travel through that path, it needs revisiting.
+
+**Side effect worth knowing about:** `Update()` also calls
+`RoomManager.UpdateTimePassed(realTimeElapsed)` each frame, which drives
+the ship UI's day-progress indicator. That now completes a full sweep every
+6 in-fiction hours instead of every day. Cosmetic only; slice 2 (the actual
+hour readout on `SGTimePlayPause`) is where that gets addressed.
+
 ## Environment details (relevant if debugging recurs)
 
 - BattleTech (Steam), ModTek v4.5.0 (confirmed stable — same bug
