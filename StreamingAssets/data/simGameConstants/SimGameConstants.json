@@ -40,8 +40,8 @@
    },
    "Time" : {
       "DayElapseTimeSlow" : 3,
-	  "DayElapseTimeNormal" : 1.25,
-	  "DayElapseTimeFast" : 0.33
+	  "DayElapseTimeNormal" : 0.3,
+	  "DayElapseTimeFast" : 0.1
    },
    "Finances" : {  
 		"QuarterLength" : 30,

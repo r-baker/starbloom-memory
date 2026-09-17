@@ -178,23 +178,24 @@ namespace GundamUCArrivalPatch
     public static class GundamUCClock
     {
         // How many in-fiction hours each stock Update() tick represents.
-        // 6 is deliberate, not a placeholder: dividing the stock thresholds
-        // (DayElapseTimeNormal 1.25s / DayElapseTimeFast 0.33s) down to a
-        // true 1-hour tick would put the fast threshold at ~0.0138s, SHORTER
-        // than a single 60fps frame (0.0167s). Because Update() does
-        // `realTimeElapsed = 0f` — a hard reset that discards the remainder
-        // rather than subtracting the threshold — a sub-frame threshold would
-        // silently make time passage frame-rate dependent (a 144Hz machine
-        // would run the campaign clock ~2.4x faster than a 60Hz one). At 6
-        // hours/tick the stock thresholds are left completely alone, so that
-        // failure mode cannot occur. 00:00/06:00/12:00/18:00 also maps
-        // cleanly onto vanilla's own mood_timeNight/Sunrise/Day/Sunset tags,
-        // which is what slice 2's night-mission work will key off.
         //
-        // Lowering this for a finer clock REQUIRES also lowering the
-        // DayElapseTime* constants to keep day-pacing sane, and must respect
-        // the one-frame floor above. Do not change it in isolation.
-        public const int HoursPerTick = 6;
+        // Now 1, giving true hour granularity (slice 3, 2026-09-17). This is
+        // paired with DayElapseTimeNormal/Fast being lowered to 0.3s/0.1s in
+        // this mod's SimGameConstants.json — the two MUST be changed together
+        // and the thresholds must stay above one frame.
+        //
+        // The frame-rate trap this avoids: Update() does
+        // `realTimeElapsed = 0f`, a hard reset that discards the remainder
+        // rather than subtracting the threshold. So if a threshold is shorter
+        // than a single frame, every frame fires exactly one tick and time
+        // passage silently becomes frame-rate dependent (a 144Hz machine
+        // would outrun a 60Hz one). Naively dividing the STOCK values by 24
+        // would have put fast at ~0.0138s — under a 60fps frame (0.0167s).
+        // 0.1s is ~6 frames at 60fps and ~3 at 30fps, so the floor holds.
+        //
+        // Day pacing lands at 24 x 0.3 = 7.2s (normal) and 24 x 0.1 = 2.4s
+        // (fast), close to the 5s/day the previous 6-hour build ran at.
+        public const int HoursPerTick = 1;
         public const int HoursPerDay = 24;
 
         private const string HourOfDayStat = "GundamUC_HourOfDay";
@@ -308,6 +309,57 @@ namespace GundamUCArrivalPatch
                 sim);
         }
 
+        // The mechanical half of hour granularity (slice 3, 2026-09-17).
+        //
+        // Slices 1-2 only produced a DISPLAY clock: suppressed ticks did
+        // nothing, so repairs/injuries/travel still resolved once per day and
+        // the sim was mechanically identical to vanilla. That could never
+        // deliver the actual goal (sortie more than once a day, pilot rest
+        // measured in hours rather than eating a week of a year-long war).
+        // These three run on every suppressed tick so they advance hourly,
+        // while the date, events, contracts, Flashpoints, milestones and
+        // finances stay on the real day boundary.
+        //
+        // All three are PUBLIC (verified via decompile — no reflection
+        // needed) and each is self-contained "do one unit of work" logic:
+        //   SGTravelManager.OnDayPassed()  — decrements TravelTime by 1 and
+        //     runs its own arrival state machine (HandleNextTravelStep). Its
+        //     bool return only feeds two HandleDebugForce* methods in vanilla,
+        //     which are debug-only, so discarding it is safe.
+        //   UpdateInjuries()               — pays GetDailyHealValue() into
+        //     the MedBay queue.
+        //   UpdateMechLabWorkQueue()       — pays MechTechSkill into the head
+        //     of the repair/refit queue.
+        //
+        // BALANCE NOTE, deliberate and load-bearing: their per-call rates are
+        // left alone, so costs authored as "days" now resolve in that many
+        // HOURS. A 6-day pilot recovery becomes 6 hours; a 5-day refit
+        // becomes 5 hours. That reinterpretation IS the feature — it's what
+        // makes multiple sorties per day possible — not an oversight. Travel
+        // costs collapse the same way (a 3-day transit becomes 3 hours); if
+        // that ends up feeling too fast, the lever is multiplying the travel
+        // costs in Starmap/GetInSystemTransitTime, not changing this method.
+        //
+        // Deliberately does NOT call ReportDay/UpdateMilestones/
+        // QueueEventTest/RefreshDay/contract+Flashpoint ticks — those are
+        // genuinely day-scale and firing them 24x more often would spam
+        // events and expire contracts 24x too fast.
+        public static void AdvanceHourlySystems(SimGameState sim)
+        {
+            if (sim == null)
+            {
+                return;
+            }
+
+            if (sim.TravelManager != null)
+            {
+                sim.TravelManager.OnDayPassed();
+            }
+
+            sim.UpdateInjuries();
+            sim.UpdateMechLabWorkQueue();
+        }
+
         public static int GetHourOfDay(SimGameState sim)
         {
             if (sim?.CompanyStats == null)
@@ -376,6 +428,7 @@ namespace GundamUCArrivalPatch
             if (hour < GundamUCClock.HoursPerDay)
             {
                 GundamUCClock.SetHourOfDay(__instance, hour);
+                GundamUCClock.AdvanceHourlySystems(__instance);
                 // Only needed on the suppressed ticks. On the day-boundary
                 // tick below, the original body runs and vanilla's own
                 // RoomManager.RefreshDay() -> SetDay() re-renders the clock
