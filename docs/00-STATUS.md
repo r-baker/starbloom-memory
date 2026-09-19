@@ -1,5 +1,50 @@
 # Current Status — Read This First
 
+## Step 6 slice 3 — MECHANICAL hour granularity, BUILT, NOT YET TESTED (2026-09-17)
+
+**Important correction to what v0.0.1 actually delivered.** Research on the
+24-hour question surfaced that slices 1-2 produced a *display* clock only:
+with `HoursPerTick = 6`, the suppressed ticks did nothing at all, so
+`DaysPassed`, travel, repairs, injuries and events still resolved once per
+day. The sim was mechanically identical to vanilla, just rendering an hour
+and running 4x slower in wall-clock. That could never deliver the actual
+goal (sortie more than once a day; pilot rest in hours instead of eating a
+week of a year-long war). User confirmed full mechanical granularity is
+what's wanted.
+
+**Built this slice:**
+- `HoursPerTick` 6 → 1, paired with `DayElapseTimeNormal` 1.25 → 0.3 and
+  `DayElapseTimeFast` 0.33 → 0.1 in this mod's `SimGameConstants.json`.
+  These two MUST move together — the thresholds must stay above one frame
+  or time passage becomes frame-rate dependent (see `03-TECHNICAL-NOTES.md`).
+  0.1s is ~6 frames at 60fps, ~3 at 30fps. Day pacing lands at 7.2s
+  (normal) / 2.4s (fast), close to the previous build's 5s.
+- `GundamUCClock.AdvanceHourlySystems()` now runs on every suppressed tick:
+  `TravelManager.OnDayPassed()`, `UpdateInjuries()`,
+  `UpdateMechLabWorkQueue()`. All three verified public via decompile, all
+  three are self-contained "one unit of work per call" logic.
+- Deliberately NOT advanced hourly: date, events, milestones, contract
+  expiry, Flashpoint gating, finances — those are genuinely day-scale and
+  firing them 24x more often would spam events and expire contracts far
+  too fast.
+
+**Balance reinterpretation, deliberate:** per-call rates are unchanged, so
+costs authored as "days" now resolve in that many HOURS. A 6-day pilot
+recovery becomes 6 hours; a 5-day refit becomes 5 hours. That IS the
+feature. Travel collapses the same way (3-day transit → 3 hours); if that
+feels too fast the lever is scaling travel costs in
+`GetInSystemTransitTime`/`StarSystemNode.Cost`, not the hourly method.
+
+**Known cosmetic side effect:** `SGTimeGreebleAnimator.TimePerDay` is set
+once from `DayElapseTimeNormal` at Init, so the day-pip sweep now completes
+in one tick rather than sweeping across a day. (Vanilla already had this
+mismatch in fast-forward.) Not addressed yet.
+
+**Needs verification:** pilots heal in hours not days, repairs complete in
+hours, travel still arrives correctly, and — critically — events/contracts/
+Flashpoints/the Gundam arrival still fire at the correct *day* cadence and
+are NOT sped up 24x.
+
 ## Step 6 slices 1+2 VERIFIED IN-GAME — tagged v0.0.1 (2026-09-16)
 
 Confirmed working in a real career: the tick advances in 6-hour steps
