@@ -41,40 +41,49 @@ Versioning follows `06-GIT-WORKFLOW.md`: `0.0.X` per verified slice,
 
 ---
 
-## Milestone 0.1.0 — Finish Step 6: night missions
+## Milestone 0.1.0 — Finish Step 6: sorties and night missions
 
-The clock exists; this is the payoff it was built for. Launching at 02:00
-should produce a genuinely harder night fight.
+The clock exists; this is the payoff it was built for.
 
-- Harmony override of `LineOfSight`'s spotter/sensor-range methods, driven
-  by `GundamUCClock`'s hour-of-day (RogueTech's LowVisibility does exactly
-  this — proven pattern, see `03-TECHNICAL-NOTES.md`).
-- Vanilla's `MoodController` day/night tags are **visual/audio only** and
-  baked per map — they are not a gameplay switch and cannot be set from a
-  contract. Confirmed. Our clock must drive this itself.
+- **0.0.3 — Sortie time cost.** A mission consumes 4-8 in-fiction hours
+  (carrier-operation scale), advancing the hour clock on contract
+  completion. Now that repairs resolve hourly, this is what makes a day
+  feel like a day: launch in the morning, repair, launch again at dusk.
+  Needs a hook on contract completion; not yet researched.
+- **0.0.4 — Day/night classification.** Derive night vs day from
+  `GundamUCClock`'s hour-of-day and make it readable at mission launch
+  (and visible to the player before they commit).
+- **0.0.5 — Night detection penalty.** Harmony override of `LineOfSight`'s
+  spotter/sensor-range methods driven by that flag. RogueTech's
+  LowVisibility does exactly this — proven pattern, see
+  `03-TECHNICAL-NOTES.md`. Note vanilla's `MoodController` day/night tags
+  are **visual/audio only**, baked per map, and cannot be set from a
+  contract; our clock must drive this itself.
 
-**Done when:** a mission launched at night measurably reduces detection
-range and the player can feel the difference.
+**Tag 0.1.0 when:** a mission launched at night measurably reduces
+detection range, and sorties consume real hours.
 
 ---
 
 ## Milestone 0.2.0 — Sides: Federation vs Zeon
 
-**The single biggest quality jump available, and the current worst bug in
+**The single biggest quality jump available, and the current worst flaw in
 the experience.** Right now the player fights Gundams and Guncannons as
 enemies because nothing separates sides.
 
-- A faction/side tag scheme on units (`NoFaction` does nothing — verified;
-  nothing reads unit faction tags during lance generation).
-- Mod-authored `LanceDef`s with faction-tagged `LanceTags` and
-  `unitTagSet`s that select Zeon units, bound to contract faction —
-  either via `ContractOverride` files or a Harmony patch injecting into
+- **0.0.6 — Side tag scheme.** A real faction/side tag on every unit.
+  (`NoFaction` does nothing — verified; nothing reads unit faction tags
+  during lance generation.)
+- **0.0.7 — Zeon lance defs.** Mod-authored `LanceDef`s whose
+  `unitTagSet`s select Zeon units only.
+- **0.0.8 — Bind lances to contract faction.** Either `ContractOverride`
+  files with matching `lanceTagSet`, or a Harmony patch injecting into
   `LanceOverride.lanceTagSet` before `RequestLance`.
-- An exclusion mechanism so **stock Inner Sphere 'Mechs stop appearing**
-  and Federation units stop showing up on the enemy side.
+- **0.0.9 — Exclude stock 'Mechs.** So Locusts and Shadow Hawks stop
+  fighting alongside Zakus, and Federation units stop appearing as enemies.
 
-**Done when:** every enemy lance is Zeon, every allied unit is Federation,
-and no Locust ever appears again.
+**Tag 0.2.0 when:** every enemy lance is Zeon, every friendly unit is
+Federation, and no Inner Sphere 'Mech ever appears again.
 
 ---
 
@@ -82,41 +91,45 @@ and no Locust ever appears again.
 
 The year currently has exactly one dated event in it (the GM unlock).
 
-- War phases across UC 0079 with escalating opposition (early Zaku-only →
-  Gouf/Dom later), reusing the proven date-gate pattern.
-- The major historical beats as scripted events or contracts.
-- Date-gated unit availability for both sides.
+- **0.0.10 — War phase state.** Date-driven company tags marking the
+  phases of UC 0079, reusing the proven GM date-gate pattern.
+- **0.0.11 — Escalating opposition.** Lance selection keyed to phase, so
+  early war is Zaku-only and later phases bring Gouf/Dom.
+- **0.0.12 — Historical beats.** The war's major moments as scripted
+  events at their real dates.
 
-**Done when:** fighting in month 10 feels different from month 1, and the
-campaign reads as a war rather than random contracts.
+**Tag 0.3.0 when:** fighting in month 10 feels different from month 1.
 
 ---
 
 ## Milestone 0.4.0 — The war ends
 
-- Campaign concludes at the OYW's canonical end (Jan UC 0080, ~day 377).
-  Stock `GameLength` is 1200 days, which currently runs to UC 0082.
-- A real conclusion — victory/defeat state, not just the vanilla career
-  score screen.
+- **0.0.13 — Campaign length.** End at the OYW's canonical close (Jan UC
+  0080, ~day 377). Stock `GameLength` is 1200 days, currently running to
+  UC 0082.
+- **0.0.14 — Conclusion.** A real ending with a victory/defeat state, not
+  the vanilla career-score screen.
 
-**Done when:** you can reach the end of the war and be told you reached it.
+**Tag 0.4.0 when:** you can reach the end of the war and be told so.
 
 ---
 
 ## Milestone 0.5.0 — It reads as Gundam
 
-- UC contract names, mission briefings and flavour text replacing the
-  3025 Aurigan Reach writing the player currently sees on every mission.
-- Faction identity: the player works for the Earth Federation, not Davion.
+- **0.0.15 — Faction identity.** The player serves the Earth Federation,
+  not Davion.
+- **0.0.16 — UC contract text.** Mission names and briefings replacing the
+  3025 Aurigan Reach writing shown on every contract today.
 
-**Done when:** nothing in normal play says "Aurigan" or "Davion".
+**Tag 0.5.0 when:** nothing in normal play says "Aurigan" or "Davion".
 
 ---
 
 ## 1.0.0 — Full playthrough, tested
 
-Play the entire war start to finish. Balance pass on tonnage/damage/
-economy. Fix what that surfaces. Tag `1.0.0`.
+Play the entire war start to finish. Balance pass on tonnage, damage,
+economy, and the hour-scale costs (sortie length, repair, injury, travel).
+Fix what that surfaces. Tag `1.0.0`.
 
 ---
 
@@ -133,8 +146,22 @@ real axis · black market · two-tier pilot pool · fatigue tracking · ship
 launch catapults · storage capacity limits · salvage exchange · Minovsky
 EW · mobile armours · underwater/amphibious combat · multiple simultaneous
 fronts · Side colonies as map nodes · 3D model replacement · UI reskin ·
-lore encyclopedia · mission-duration hour costs · travel-time rescaling
-(deferred by decision 2026-09-18 until map work)
+lore encyclopedia
+
+**Travel-time rescaling — deferred by decision 2026-09-18.** Hour-granular
+time collapsed transits from days to hours, which is currently too fast.
+The fix needs the campaign map finished first, then tuning the stock
+travel costs (`GetInSystemTransitTime`, `StarSystemNode.Cost`). **Not new
+work:** stock `argoUpgrade_drive1/2` already modify the
+`DriveTravelMultiplier` company stat that `GetInSystemTransitTime`
+multiplies by, so in-game travel upgrades already shorten transits — the
+carrier just needs reflavouring and the numbers tuning.
+
+**Repair-bay upgrades reducing repair time — already works, no build
+needed.** Stock `argoUpgrade_mechBay1/2/3` and the automation upgrades
+modify `MechTechSkill`, which is exactly what the hourly
+`UpdateMechLabWorkQueue()` pays into. Bay upgrades therefore already cut
+repair time in hours. Reflavour and tune at 1.0.0's balance pass.
 
 **Rule:** anything on this list that becomes genuinely blocking for 1.0.0
 gets promoted *deliberately*, with a note here explaining why — not
