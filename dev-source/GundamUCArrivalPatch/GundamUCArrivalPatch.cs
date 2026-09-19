@@ -199,6 +199,110 @@ namespace GundamUCArrivalPatch
         public const int HoursPerDay = 24;
 
         private const string HourOfDayStat = "GundamUC_HourOfDay";
+        private const string PendingSortieHoursStat = "GundamUC_PendingSortieHours";
+        private const string LastSortieContractStat = "GundamUC_LastSortieContract";
+
+        // A sortie costs 4-8 in-fiction hours (carrier-operation scale, per
+        // design). Scaled by how long the battle actually ran —
+        // Contract.TotalCombatRounds is the only genuine in-fiction length
+        // figure on the contract object (Contract.TimeElapsed is real-world
+        // wall-clock seconds, NOT fiction time — do not use it).
+        public const int SortieHoursMin = 4;
+        public const int SortieHoursMax = 8;
+        private const int RoundsPerExtraHour = 4;
+
+        // Hard ceiling on how much the clock can jump in a single tick.
+        // Guarantees hour-of-day can never cross more than ONE midnight in
+        // one Prefix call, which is what keeps the `hour - HoursPerDay` carry
+        // from silently losing a day.
+        private const int MaxDrainPerTick = 12;
+
+        public static int SortieHoursFor(Contract contract)
+        {
+            int hours = SortieHoursMin;
+            if (contract != null && RoundsPerExtraHour > 0)
+            {
+                hours += contract.TotalCombatRounds / RoundsPerExtraHour;
+            }
+            return Mathf.Clamp(hours, SortieHoursMin, SortieHoursMax);
+        }
+
+        public static void AddPendingSortieHours(SimGameState sim, int hours)
+        {
+            if (sim?.CompanyStats == null || hours <= 0)
+            {
+                return;
+            }
+
+            int pending = GetIntStat(sim, PendingSortieHoursStat) + hours;
+            SetIntStat(sim, PendingSortieHoursStat, pending);
+        }
+
+        // Reads and clears the banked debt, capped so a single tick can never
+        // jump more than one day.
+        public static int TakePendingSortieHours(SimGameState sim)
+        {
+            int pending = GetIntStat(sim, PendingSortieHoursStat);
+            if (pending <= 0)
+            {
+                return 0;
+            }
+
+            int taken = Mathf.Min(pending, MaxDrainPerTick);
+            SetIntStat(sim, PendingSortieHoursStat, pending - taken);
+            return taken;
+        }
+
+        // Guards against the same contract being charged twice — the AAR can
+        // reach OnCompleteContract from three different call sites.
+        public static bool AlreadyChargedFor(SimGameState sim, string contractGuid)
+        {
+            if (sim?.CompanyStats == null || string.IsNullOrEmpty(contractGuid))
+            {
+                return false;
+            }
+
+            if (!sim.CompanyStats.ContainsStatistic(LastSortieContractStat))
+            {
+                sim.CompanyStats.AddStatistic(LastSortieContractStat, contractGuid);
+                return false;
+            }
+
+            Statistic stat = sim.CompanyStats.GetStatistic(LastSortieContractStat);
+            if (stat.Value<string>() == contractGuid)
+            {
+                return true;
+            }
+
+            stat.SetValue(contractGuid);
+            return false;
+        }
+
+        private static int GetIntStat(SimGameState sim, string name)
+        {
+            if (sim?.CompanyStats == null || !sim.CompanyStats.ContainsStatistic(name))
+            {
+                return 0;
+            }
+            return sim.CompanyStats.GetStatistic(name).Value<int>();
+        }
+
+        private static void SetIntStat(SimGameState sim, string name, int value)
+        {
+            if (sim?.CompanyStats == null)
+            {
+                return;
+            }
+
+            if (sim.CompanyStats.ContainsStatistic(name))
+            {
+                sim.CompanyStats.GetStatistic(name).SetValue(value);
+            }
+            else
+            {
+                sim.CompanyStats.AddStatistic(name, value);
+            }
+        }
 
         // Cached so the clock can be re-rendered on an hour tick. SetDay only
         // fires once per real DAY (SGRoomManager.RefreshDay is called from
@@ -423,12 +527,30 @@ namespace GundamUCArrivalPatch
                 return true;
             }
 
-            int hour = GundamUCClock.GetHourOfDay(__instance) + GundamUCClock.HoursPerTick;
+            // Spend any sortie debt banked by the contract-completion hook.
+            // Deliberately drained HERE rather than applied at the contract
+            // hook itself: at that point UXAttached is false and RoomManager
+            // isn't attached, so advancing a day there would hit
+            // RoomManager.RefreshDay() and NRE. Draining through the normal
+            // Update()-driven tick means every day rollover still happens via
+            // vanilla's own call site — exactly one OnDayPassed body per
+            // frame, no out-of-band invocation, no re-entrancy.
+            int advance = GundamUCClock.HoursPerTick
+                + GundamUCClock.TakePendingSortieHours(__instance);
+
+            // One unit of subsystem work per in-fiction hour, so a 6-hour
+            // sortie really does advance repairs/injuries/travel by 6 hours
+            // rather than by a single tick.
+            for (int i = 0; i < advance; i++)
+            {
+                GundamUCClock.AdvanceHourlySystems(__instance);
+            }
+
+            int hour = GundamUCClock.GetHourOfDay(__instance) + advance;
 
             if (hour < GundamUCClock.HoursPerDay)
             {
                 GundamUCClock.SetHourOfDay(__instance, hour);
-                GundamUCClock.AdvanceHourlySystems(__instance);
                 // Only needed on the suppressed ticks. On the day-boundary
                 // tick below, the original body runs and vanilla's own
                 // RoomManager.RefreshDay() -> SetDay() re-renders the clock
@@ -442,6 +564,49 @@ namespace GundamUCArrivalPatch
             // doesn't divide 24 evenly.
             GundamUCClock.SetHourOfDay(__instance, hour - GundamUCClock.HoursPerDay);
             return true;
+        }
+    }
+
+    // Slice 0.0.3 (2026-09-18): a completed mission consumes 4-8 in-fiction
+    // hours, so a day holds a real operational cycle — launch, return,
+    // repair, launch again — now that repairs/injuries/travel resolve hourly.
+    //
+    // Hooks `SimGameState.OnCompleteContract(Contract)` (public, one-line
+    // body: `CompletedContract = contract`). Chosen over the obvious
+    // alternative, a Postfix on the private `ResolveCompleteContract`,
+    // because this fires strictly BEFORE the post-contract autosave
+    // (`TriggerSaveNow` is the last statement of ResolveCompleteContract),
+    // so the banked debt is carried by that save rather than landing after
+    // it. Confirmed via decompile that all three call sites
+    // (AAR_SalvageScreen.OnCompleted, the MissionResults skip-salvage path,
+    // MissionResultsSalvage.OnContinueClicked) run only once the AAR/salvage
+    // flow has finished and been pooled.
+    //
+    // This deliberately does NOT advance time here — it only banks a number.
+    // At this point `UXAttached` is still false and RoomManager isn't
+    // attached, and OnDayPassed unconditionally touches
+    // RoomManager.RefreshDay()/RefreshDisplay(), so advancing a day from
+    // here would risk a NullReferenceException. The hour Prefix drains the
+    // debt later through vanilla's own tick.
+    [HarmonyPatch(typeof(SimGameState), "OnCompleteContract")]
+    public static class SimGameState_OnCompleteContract_SortieTime_Patch
+    {
+        public static void Postfix(SimGameState __instance, Contract contract)
+        {
+            if (__instance == null || contract == null)
+            {
+                return;
+            }
+
+            // Three separate call sites can reach this for one mission;
+            // charge each contract only once.
+            if (GundamUCClock.AlreadyChargedFor(__instance, contract.GUID))
+            {
+                return;
+            }
+
+            GundamUCClock.AddPendingSortieHours(
+                __instance, GundamUCClock.SortieHoursFor(contract));
         }
     }
 
